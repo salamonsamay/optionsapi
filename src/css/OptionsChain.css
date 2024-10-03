@@ -1,0 +1,176 @@
+/* OptionsChain.css */
+
+.options-chain-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px; /* Increased padding for better spacing */
+  font-family: 'Roboto', sans-serif; /* Changed font for a more modern look */
+  background: #f9f9f9; /* Light background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.options-chain-container h2 {
+  color: #2c3e50; /* Darker color for better readability */
+  margin-bottom: 10px;
+  font-size: 24px; /* Increased font size */
+  border-bottom: 2px solid #4CAF50; /* Underline for emphasis */
+  padding-bottom: 10px; /* Spacing under the heading */
+}
+
+.options-chain-container p {
+  color: #7f8c8d; /* Softer color for secondary text */
+  margin-bottom: 20px;
+  font-size: 16px; /* Slightly larger font size */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Increased margin for better separation */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600; /* Bolder font weight */
+  color: #34495e; /* Darker label color */
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px; /* More padding for comfort */
+  border: 1px solid #ccc; /* Lighter border color */
+  border-radius: 4px;
+  font-size: 16px; /* Increased font size for inputs */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transition for better focus effect */
+}
+
+.form-group input[type="date"] {
+  font-family: 'Roboto', sans-serif; /* Consistent font */
+}
+
+.form-group select {
+  background-color: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4CAF50; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Soft glow effect on focus */
+}
+
+.run-query-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px; /* Increased padding */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px; /* Larger font size */
+  transition: background-color 0.3s, transform 0.3s; /* Added transition for scaling */
+}
+
+.run-query-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px); /* Slight upward movement on hover */
+}
+
+.run-query-btn:active {
+  transform: translateY(1px); /* Slight downward movement on click */
+}
+
+@media (max-width: 480px) {
+  .options-chain-container {
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8); /* Darker overlay for improved contrast */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure modal is on top */
+  transition: opacity 0.3s ease; /* Smooth transition for overlay */
+}
+
+.modal-content {
+  background: #fff; /* White background for the modal content */
+  padding: 30px; /* Increased padding for comfort */
+  border-radius: 10px; /* Rounded corners for a softer look */
+  width: 90%; /* Responsive width */
+  max-width: 500px;
+  max-height: 80vh; /* Set a max height for the modal content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Softer shadow for depth */
+  animation: fadeIn 0.3s ease; /* Fade-in animation for modal */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* Slide in from above */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  font-size: 22px; /* Increased font size for modal heading */
+  color: #2c3e50; /* Darker color for better readability */
+  border-bottom: 2px solid #4CAF50; /* Underline for emphasis */
+  padding-bottom: 10px; /* Spacing under the heading */
+}
+
+.modal-content p {
+  color: #7f8c8d; /* Softer color for secondary text */
+  line-height: 1.6; /* Improved line height for readability */
+}
+
+.modal-content button {
+  
+  margin-top: 20px;
+  background-color: #4CAF50; /* Same button style as main button */
+  color: white;
+  padding: 12px 20px; /* Increased padding for comfort */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s; /* Added transitions */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px); /* Upward movement on hover */
+}
+
+.modal-content button:active {
+  transform: translateY(1px); /* Downward movement on click */
+}
+
+.copy-url-btn {
+  background-color: #3498db; /* Primary color for the button */
+  color: white;
+  padding: 10px 15px; /* Padding for comfort */
+  border: none;
+  border-radius: 0px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Transition for hover effect */
+  
+}
+
+.copy-url-btn:hover {
+  
+  background-color: #2980b9; /* Darker shade on hover */
+}
