@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/OptionsChain.css";
+import { useNavigate } from "react-router-dom"; // Ensure this line is present
 
 // Modal component remains unchanged
 const Modal = ({ isOpen, onClose, data }) => {
@@ -17,6 +18,13 @@ const Modal = ({ isOpen, onClose, data }) => {
 };
 
 const OptionsChain = () => {
+  const navigate = useNavigate();
+
+  // Handle button click to go to the PayPal checkout page
+  const handleProceedToPayPal = () => {
+    navigate("/paypal-checkout");
+  };
+
   const token = localStorage.getItem("token");
 
   const [symbol, setSymbol] = useState("");
@@ -223,6 +231,8 @@ const OptionsChain = () => {
       <button className="run-query-btn" onClick={handleRunQuery}>
         Run Query
       </button>
+
+      <button onClick={handleProceedToPayPal}>Proceed to PayPal</button>
 
       {/* Render the Modal */}
       <Modal
