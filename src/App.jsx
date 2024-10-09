@@ -8,6 +8,7 @@ import {
 import Login from "./Login";
 import Register from "./Register";
 import OptionsChain from "./OptionsChain";
+import PayPalCheckout from "./PayPalCheckout";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,11 +18,19 @@ function App() {
     const checkAuthentication = () => {
       const token = localStorage.getItem("token");
       const apiKey = localStorage.getItem("apiKey");
-      console.log(token);
-      console.log("api key " + apiKey);
+
+      // Debugging token and API key
+      console.log("Token in App component:", token);
+      console.log("API key in App component:", apiKey);
+
+      // Check if token exists and update authentication state
       if (token) {
         setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
       }
+
+      // Mark loading as finished
       setIsLoading(false);
     };
 
@@ -56,6 +65,9 @@ function App() {
             )
           }
         />
+        <Route path="/paypal-checkout" element={<PayPalCheckout />} />
+
+        <Route path="/success" element={<h2>Payment Success!</h2>} />
       </Routes>
     </Router>
   );

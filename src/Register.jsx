@@ -1,10 +1,13 @@
+// Register.jsx
 import React, { useState } from "react";
-import "./css/Register.css"; // Create a separate CSS file for styling
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./css/Login.css"; // Use the same CSS file for styling
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -42,7 +45,9 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
+    <div className="login-container">
+      {" "}
+      {/* Changed class name */}
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <div className="input-group">
@@ -75,8 +80,18 @@ const Register = () => {
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" className="btn-primary">
+          Register
+        </button>
       </form>
+      <div className="additional-options">
+        <button
+          className="btn-secondary"
+          onClick={() => navigate("/login")} // Navigate to login
+        >
+          Already have an account? Log In
+        </button>
+      </div>
     </div>
   );
 };

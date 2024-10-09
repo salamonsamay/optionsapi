@@ -58,6 +58,8 @@ const OptionsChain = () => {
 
   const handleRunQuery = async () => {
     try {
+      console.log("Query URL: ", queryUrl);
+
       const response = await fetch(queryUrl, {
         method: "GET",
         headers: {
@@ -68,6 +70,7 @@ const OptionsChain = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log("token in optionsChain " + token);
 
       const data = await response.json();
       setQueryResult(data);

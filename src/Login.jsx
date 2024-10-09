@@ -10,7 +10,6 @@ const Login = ({ setIsAuthenticated }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -22,18 +21,11 @@ const Login = ({ setIsAuthenticated }) => {
           password: password,
         }),
       });
-
       if (response.ok) {
         const data = await response.json();
-
-        // Store the token
         localStorage.setItem("token", data.token);
         localStorage.setItem("apiKey", data.apiKey);
-
-        // Set user as authenticated
         setIsAuthenticated(true);
-
-        // Redirect to the options chain page
         navigate("/optionsChain");
       } else {
         const errorData = await response.json();
@@ -70,8 +62,21 @@ const Login = ({ setIsAuthenticated }) => {
           />
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Login</button>
+        <button type="submit" className="btn-primary">
+          Login
+        </button>
       </form>
+      <div className="additional-options">
+        <button
+          className="btn-secondary"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Password
+        </button>
+        <button className="btn-secondary" onClick={() => navigate("/register")}>
+          Sign Up
+        </button>
+      </div>
     </div>
   );
 };
