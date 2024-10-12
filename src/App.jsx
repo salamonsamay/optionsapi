@@ -9,6 +9,10 @@ import Login from "./Login";
 import Register from "./Register";
 import OptionsChain from "./OptionsChain";
 import PayPalCheckout from "./PayPalCheckout";
+import ForgotPassword from "./ForgotPassword";
+import Pricing from "./Pricing"; // Import Pricing component
+import Contact from "./Contact"; // Import Contact component
+import NavBar from "./NavBar";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,18 +23,15 @@ function App() {
       const token = localStorage.getItem("token");
       const apiKey = localStorage.getItem("apiKey");
 
-      // Debugging token and API key
       console.log("Token in App component:", token);
       console.log("API key in App component:", apiKey);
 
-      // Check if token exists and update authentication state
       if (token) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
       }
 
-      // Mark loading as finished
       setIsLoading(false);
     };
 
@@ -38,37 +39,44 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return <div>Loading...</div>;
   }
 
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/optionsChain"
-          element={
-            isAuthenticated ? <OptionsChain /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? (
-              <Navigate to="/optionsChain" />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route path="/paypal-checkout" element={<PayPalCheckout />} />
+      <NavBar isAuthenticated={isAuthenticated} />
+      <div className="route">
+        <Routes>
+          <Route
+            path="/optionsChain"
+            element={
+              isAuthenticated ? <OptionsChain /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/optionsChain" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route path="/paypal-checkout" element={<PayPalCheckout />} />
+          <Route path="/success" element={<h2>Payment Success!</h2>} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        <Route path="/success" element={<h2>Payment Success!</h2>} />
-      </Routes>
+          {/* New Routes for Pricing and Contact */}
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

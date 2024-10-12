@@ -10,23 +10,32 @@
 }
 
 body {
+  position: relative;
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* border: 5px solid rgb(37, 142, 58); */
+  
+  
+
 }
 
 .options-chain-container {
-  max-width: 800px;
+  position: relative;
+  width: 600px; /* Set a fixed width */
   margin: 40px auto;
   padding: 40px;
   background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  /* border: 5px solid rebeccapurple; */
 }
+
+
 
 .options-chain-container:hover {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
@@ -51,6 +60,7 @@ p {
 }
 
 .form-group {
+  position: relatsive;
   margin-bottom: 24px;
 }
 
@@ -139,9 +149,9 @@ p {
 }
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
+ 
+
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.75);
@@ -226,4 +236,42 @@ p {
   .run-query-btn {
     font-size: 16px;
   }
+}
+
+
+.documentation {
+  position: relative;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9; /* Light grey background */
+  color: #333; /* Dark text color */
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 600px; /* Limit the width */
+  line-height: 1.6; /* Better readability */
+  /* border: 5px solid rgb(37, 142, 58); */
+  
+}
+
+.documentation h1, .documentation h2, .documentation h3 {
+  color: #2c3e50; /* Darker heading colors */
+}
+
+.documentation p {
+  margin-bottom: 16px; /* Space between paragraphs */
+}
+
+.documentation a {
+  color: #3498db; /* Blue links */
+  text-decoration: none;
+}
+
+.documentation a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.documentation ul {
+  margin-left: 20px;
+  list-style-type: disc;
 }

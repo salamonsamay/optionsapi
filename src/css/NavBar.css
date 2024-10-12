@@ -1,0 +1,71 @@
+/* General NavBar styles */
+.navbar {
+  background-color: #64d4e3; /* Dark background for the navbar */
+  padding: 10px 20px; /* Padding around the navbar */
+  width: 100%; /* Full width */
+  position: fixed; /* Keeps navbar fixed at the top */
+  top: 0;
+  z-index: 1000; /* Ensure navbar stays above other content */
+  display: flex;
+  justify-content: space-between; /* Space between left and right sections */
+  align-items: center; /* Align items vertically */
+  box-shadow: 0 4px 8px rgba(6, 149, 189, 0.676); /* Subtle shadow effect */
+}
+
+/* Navbar list */
+.navbar-list {
+  list-style-type: none; /* Remove bullet points */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Display list items in a row */
+}
+
+/* Individual navbar items */
+.navbar-item {
+  margin-right: 20px; /* Space between items */
+}
+
+.navbar-item:last-child {
+  margin-right: 0; /* Remove margin for the last item */
+}
+
+/* Navbar links */
+.navbar-link {
+  color: white; /* White text for links */
+  text-decoration: none; /* Remove underline */
+  font-size: 18px; /* Increase font size */
+  font-weight: 500; /* Semi-bold font */
+  padding: 10px 15px; /* Add padding around links */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.navbar-link:hover {
+  background-color: #e4e4e4a1; /* Darker background on hover */
+  color: #fff; /* White text on hover */
+}
+
+/* Right-side items for account and logout */
+.navbar-right {
+  position: absolute;
+  display: flex;
+  align-items: center; /* Vertically center right-side items */
+  right: 100px;
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack navbar items vertically */
+  }
+
+  .navbar-list {
+    flex-direction: column; /* Stack list items vertically */
+    align-items: center;
+  }
+
+  .navbar-item {
+    margin-right: 0;
+    margin-bottom: 10px; /* Add space between stacked items */
+  }
+}
