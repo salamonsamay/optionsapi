@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/OptionsChain.css";
 import { useNavigate } from "react-router-dom"; // Ensure this line is present
+import API_URL from './config/config';
 
 // Modal component remains unchanged
 const Modal = ({ isOpen, onClose, data }) => {
@@ -397,7 +398,7 @@ const OptionsChain = () => {
     if (sort) queryParams.push(`sort=${sort}`);
     if (apiKey) queryParams.push(`apiKey=${apiKey}`);
 
-    return `http://localhost:8080/optionsChain?${queryParams.join("&")}`;
+    return `${API_URL}/optionsChain?${queryParams.join("&")}`;
   };
 
   // Function to copy the URL to the clipboard
