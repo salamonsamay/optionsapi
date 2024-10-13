@@ -10,8 +10,8 @@ import Register from "./Register";
 import OptionsChain from "./OptionsChain";
 import PayPalCheckout from "./PayPalCheckout";
 import ForgotPassword from "./ForgotPassword";
-import Pricing from "./Pricing"; // Import Pricing component
-import Contact from "./Contact"; // Import Contact component
+import Pricing from "./Pricing";
+import Contact from "./Contact";
 import NavBar from "./NavBar";
 
 function App() {
@@ -38,13 +38,22 @@ function App() {
     checkAuthentication();
   }, []);
 
+  const handleLogout = () => {
+    // Remove token and apiKey from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("apiKey");
+
+    // Update authentication state
+    setIsAuthenticated(false);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <Router>
-      <NavBar isAuthenticated={isAuthenticated} />
+      <NavBar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <div className="route">
         <Routes>
           <Route
@@ -71,8 +80,6 @@ function App() {
           <Route path="/paypal-checkout" element={<PayPalCheckout />} />
           <Route path="/success" element={<h2>Payment Success!</h2>} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-
-          {/* New Routes for Pricing and Contact */}
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>

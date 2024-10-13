@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import "./css/NavBar.css"; // Import the CSS file
 
-function NavBar({ isAuthenticated }) {
+function NavBar({ isAuthenticated, onLogout }) {
   return (
     <nav className="navbar">
       <ul className="navbar-list">
@@ -43,6 +42,11 @@ function NavBar({ isAuthenticated }) {
               <Link to="/account" className="navbar-link">
                 Account
               </Link>
+            </li>
+            <li className="navbar-item">
+              <button className="navbar-link" onClick={onLogout}>
+                Logout
+              </button>
             </li>
           </ul>
         </div>
