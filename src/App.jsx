@@ -13,6 +13,9 @@ import ForgotPassword from "./ForgotPassword";
 import Pricing from "./Pricing";
 import Contact from "./Contact";
 import NavBar from "./NavBar";
+import Account from "./account/Account";
+import ChangePassword from "./account/ChangePassword";
+import Home from "./Home";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -82,6 +85,9 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </div>
     </Router>

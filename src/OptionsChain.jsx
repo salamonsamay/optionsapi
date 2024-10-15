@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/OptionsChain.css";
 import { useNavigate } from "react-router-dom"; // Ensure this line is present
-import API_URL from './config/config';
+import API_URL from "./config/config";
 
 // Modal component remains unchanged
 const Modal = ({ isOpen, onClose, data }) => {

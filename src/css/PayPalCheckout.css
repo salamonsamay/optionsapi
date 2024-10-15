@@ -1,0 +1,29 @@
+/* PayPalCheckout.css */
+
+.paypal-checkout-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100vh;          /* Full viewport height */
+    background-color: #f9f9f9; /* Light background color */
+    padding: 20px;          /* Add some padding */
+   
+  }
+  
+  .paypal-button {
+    display: inline-block;    /* Align button within the container */
+    border: none;            /* Remove default border */
+    border-radius: 10px;     /* More rounded corners */
+    background-color: #0070ba; /* PayPal button color */
+    color: white;            /* Button text color */
+    padding: 20px 40px;      /* Increased padding for a larger button */
+    font-size: 24px;         /* Larger font size */
+    cursor: pointer;         /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  .paypal-button:hover {
+    background-color: #005ea6; /* Darker shade on hover */
+  }
+  
+  

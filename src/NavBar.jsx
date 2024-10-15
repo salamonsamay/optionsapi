@@ -1,13 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import "./css/NavBar.css"; // Import the CSS file
 
 function NavBar({ isAuthenticated, onLogout }) {
+  const navigate = useNavigate(); // Get the navigate function
+
+  const handleLogout = () => {
+    // Call the provided onLogout function
+    onLogout();
+    // Navigate to the /login route
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar">
       <ul className="navbar-list">
         <li className="navbar-item">
-          <Link to="/" className="navbar-link">
+          <Link to="/home" className="navbar-link">
             Home
           </Link>
         </li>
@@ -39,12 +48,15 @@ function NavBar({ isAuthenticated, onLogout }) {
         <div className="navbar-right">
           <ul className="navbar-list">
             <li className="navbar-item">
-              <Link to="/account" className="navbar-link">
+              <button
+                className="navbar-button"
+                onClick={() => (window.location.href = "/account")}
+              >
                 Account
-              </Link>
+              </button>
             </li>
             <li className="navbar-item">
-              <button className="navbar-link" onClick={onLogout}>
+              <button className="navbar-link" onClick={handleLogout}>
                 Logout
               </button>
             </li>

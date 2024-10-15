@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
-import API_URL from './config/config'; // Importing the API_URL
+import API_URL from "./config/config"; // Importing the API_URL
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -93,10 +93,7 @@ const Register = () => {
         </button>
       </form>
       <div className="additional-options">
-        <button
-          className="btn-secondary"
-          onClick={() => navigate("/login")}
-        >
+        <button className="btn-secondary" onClick={() => navigate("/login")}>
           Already have an account? Log In
         </button>
       </div>

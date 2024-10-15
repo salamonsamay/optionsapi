@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import API_URL from "./config/config.jsx"; // Adjust the import path accordingly
 
 const PayPalCheckout = () => {
   const paypalRef = useRef();
@@ -40,20 +41,18 @@ const PayPalCheckout = () => {
                 throw new Error("Token not found. Please log in.");
               }
 
-              const response = await fetch(
-                "http://localhost:8080/api/paypal/payment",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify({
-                    orderId: orderId,
-                    payerId: payerId,
-                  }),
-                }
-              );
+              // Use API_URL here
+              const response = await fetch(`${API_URL}/api/paypal/payment`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  orderId: orderId,
+                  payerId: payerId,
+                }),
+              });
 
               if (!response.ok) {
                 const errorDetails = await response.text();

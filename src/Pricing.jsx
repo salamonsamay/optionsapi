@@ -1,8 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import "./css/Pricing.css";
 
-const PricingTier = ({ tier, price, features, highlighted, onSignUp }) => (
+const PricingTier = ({
+  tier,
+  price,
+  features,
+  highlighted,
+  onSignUp,
+  isCurrentPlan,
+}) => (
   <div className={`pricing-tier ${highlighted ? "highlighted" : ""}`}>
     <h2 className="tier-name">{tier}</h2>
     <p className="tier-description">Great for {features[0].toLowerCase()}</p>
@@ -10,15 +17,23 @@ const PricingTier = ({ tier, price, features, highlighted, onSignUp }) => (
       ${price}
       <span>/month</span>
     </p>
-    <button
-      className={`signup-button ${highlighted ? "primary" : "secondary"}`}
-      onClick={onSignUp}
-    >
-      Sign up
-    </button>
+    {isCurrentPlan ? (
+      <button
+        className={`signup-button ${highlighted ? "primary" : "secondary"}`}
+        disabled
+      >
+        Current Plan
+      </button>
+    ) : (
+      <button
+        className={`signup-button ${highlighted ? "primary" : "secondary"}`}
+        onClick={onSignUp}
+      >
+        Sign up
+      </button>
+    )}
     <ul className="feature-list">
       {features.map((feature, index) => {
-        // Check if the feature contains "Real-time Data"
         const featureContent =
           feature.includes("Real-time Data") ||
           feature.includes("Unlimited API Calls") ? (
@@ -52,12 +67,13 @@ const PricingTier = ({ tier, price, features, highlighted, onSignUp }) => (
 );
 
 const Pricing = () => {
-  const navigate = useNavigate(); // Create a navigate function
+  const navigate = useNavigate();
+  const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+  const currentPlan = isSubscribed ? "Advanced" : "Basic"; // Assuming "Advanced" is the subscribed plan
 
-  // Function to handle sign up
   const handleSignUp = (tier) => {
-    if (tier === "Advanced") {
-      navigate("/paypal-checkout"); // Navigate to /paypal-checkout for the Advanced tier
+    if (tier === "Advanced" && !isSubscribed) {
+      navigate("/paypal-checkout");
     }
   };
 
@@ -68,7 +84,7 @@ const Pricing = () => {
       features: [
         "Great for real-time data",
         "All US Options Tickers",
-        "10 API Calls per Second",
+        "10 API Calls per Minute",
         "Real-time Data",
         "Technical Indicators",
         "Greeks, IV, & Open Interest",
@@ -102,7 +118,8 @@ const Pricing = () => {
           <PricingTier
             key={index}
             {...tier}
-            onSignUp={() => handleSignUp(tier.tier)} // Pass the sign-up handler
+            onSignUp={() => handleSignUp(tier.tier)}
+            isCurrentPlan={tier.tier === currentPlan}
           />
         ))}
       </div>

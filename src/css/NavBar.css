@@ -1,71 +1,91 @@
-/* General NavBar styles */
+/* General NavBar styles (same as before) */
 .navbar {
-  background-color: #002fff56; /* Dark background for the navbar */
-  padding: 10px 20px; /* Padding around the navbar */
-  width: 100%; /* Full width */
-  position: fixed; /* Keeps navbar fixed at the top */
+  background-color: rgba(0, 47, 255, 0.35);
+  padding: 15px 30px;
+  width: 100%;
+  position: fixed;
   top: 0;
-  z-index: 1000; /* Ensure navbar stays above other content */
+  z-index: 1000;
   display: flex;
-  justify-content: space-between; /* Space between left and right sections */
-  align-items: center; /* Align items vertically */
-  box-shadow: 0 4px 8px rgba(6, 149, 189, 0.676); /* Subtle shadow effect */
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Navbar list */
 .navbar-list {
-  list-style-type: none; /* Remove bullet points */
+  list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex; /* Display list items in a row */
+  display: flex;
 }
 
 /* Individual navbar items */
 .navbar-item {
-  margin-right: 20px; /* Space between items */
-}
-
-.navbar-item:last-child {
-  margin-right: 0; /* Remove margin for the last item */
+  margin-right: 30px;
+  position: relative;
 }
 
 /* Navbar links */
 .navbar-link {
-  color: white; /* White text for links */
-  text-decoration: none; /* Remove underline */
-  font-size: 18px; /* Increase font size */
-  font-weight: 500; /* Semi-bold font */
-  padding: 10px 15px; /* Add padding around links */
-  border-radius: 4px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar-link:hover {
-  background-color: #e4e4e4a1; /* Darker background on hover */
-  color: #fff; /* White text on hover */
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* New Account Button Style */
+.navbar-button {
+  background-color: transparent; /* Make button background transparent */
+  color: white; /* White text */
+  font-size: 18px; /* Same font size as links */
+  font-weight: 600; /* Bold font */
+  padding: 12px 20px; /* Same padding for consistency */
+  border: none; /* Remove default button border */
+  border-radius: 25px; /* Match the rounded corners of links */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.navbar-button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
 }
 
 /* Right-side items for account and logout */
 .navbar-right {
   position: absolute;
   display: flex;
-  align-items: center; /* Vertically center right-side items */
-  right: 100px;
+  align-items: center;
+  right: 30px; /* Adjusted for balance */
+  
 }
 
-/* Responsive layout for small screens */
+/* Responsive layout for small screens (same as before) */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* Stack navbar items vertically */
+    flex-direction: column;
+    padding: 10px;
   }
 
   .navbar-list {
-    flex-direction: column; /* Stack list items vertically */
+    flex-direction: column;
     align-items: center;
   }
 
   .navbar-item {
     margin-right: 0;
-    margin-bottom: 10px; /* Add space between stacked items */
+    margin-bottom: 10px;
   }
 }

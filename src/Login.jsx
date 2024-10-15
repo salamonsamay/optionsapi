@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
-import API_URL from './config/config'; // Importing the API_URL
+import API_URL from "./config/config"; // Importing the API_URL
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -12,7 +12,8 @@ const Login = ({ setIsAuthenticated }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/login`, { // Using the API_URL
+      const response = await fetch(`${API_URL}/login`, {
+        // Using the API_URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,6 +27,9 @@ const Login = ({ setIsAuthenticated }) => {
         const data = await response.json();
         localStorage.setItem("token", data.token);
         localStorage.setItem("apiKey", data.apiKey);
+        localStorage.setItem("email", data.email); // Storing email in localStorage
+        localStorage.setItem("isSubscribed", data.isSubscribe); // Store subscription status if needed
+
         setIsAuthenticated(true);
         navigate("/optionsChain");
       } else {
