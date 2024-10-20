@@ -1,19 +1,62 @@
 
- 
+.home-container {
+  max-width: 1200px; /* Set a max width for the container */
+  margin: 0 auto; /* Center the container */
+  padding: 2rem; /* Add padding around the content */
+  background-color: #f9fafb; /* Light background color */
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.header {
+  position: relative;
+  text-align: center; /* Center the header text */
+  background: linear-gradient(to right, #6366f1, #ec4899); /* Gradient background */
+  padding: 2rem;
+  border-radius: 1rem 1rem 0 0; /* Rounded corners on top */
+  border: 2px solid rgb(219, 202, 16);
+  bottom: 30px;
   
-  .header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: white;
-  }
+
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
   
-  .content {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    margin-top: -2rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
+}
+
+
+.home-container {
+
+  position: relative;
+  max-width: 1200px; /* Set a max width for the container */
+  margin: 0 auto; /* Center the container */
+  padding: 2rem; /* Add padding around the content */
+  background-color: #f9fafb; /* Light background color */
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  border: 2px solid rgb(241, 60, 60);
+  bottom: -60px;
+
+
+
+}
+  
+.content {
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: -2rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid black;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
   
   .section-title {
     font-size: 2rem;
@@ -22,6 +65,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 2rem 0;
+    
   }
   
   .feature-grid {

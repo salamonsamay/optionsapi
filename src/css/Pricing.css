@@ -1,123 +1,199 @@
 /* Pricing.css */
 
+
+
 .pricing-container {
-  position: relative;
-  left: 500px;
-  background-color: #ffffff;
-  padding: 3rem 0;
-  margin: 0 auto; /* Center the container */
-  max-width: 1200px; /* Limit max width */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  position: absolute;
+  max-width: 1200px; /* Set a max width for the container */
+  padding: 2rem; /* Add padding around the content */
+  background-color: #f9fafb; /* Light background color */
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  /* border: 2px solid rgb(241, 60, 60); */
+  top: 60px;
+  left: 200px;
+  
+
 }
 
 .pricing-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
+  
 }
 
 .pricing-title {
-  font-size: 2.5rem; /* Slightly larger title */
-  font-weight: 700; /* Slightly less bold */
-  color: #1a202c;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+  
 }
 
 .pricing-subtitle {
-  font-size: 1.5rem; /* Slightly larger subtitle */
-  color: #4a5568;
-  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  
 }
 
 .pricing-grid {
   display: grid;
-  gap: 2rem; /* Increased gap for better spacing */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   max-width: 1280px;
-  margin: 0 auto; /* Center grid */
-  padding: 0 1rem;
+  margin: 0 auto;
+  
 }
 
 .pricing-tier {
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 2rem; /* Increased padding for better spacing */
+  position: relative;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2.5rem;
   transition: all 0.3s ease;
-  background-color: #f9fafb; /* Light background for tiers */
-  text-align: center; /* Center text in the tier */
+  background-color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid blue;
+  transform: scale(0.7); /* Add this line to create a zoomed-out effect */
+  bottom: 190px;
 }
 
 .pricing-tier:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: scale(1); /* Change this line to zoom in on hover */
+  box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
+}
+
+.pricing-tier::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: 2px solid blue
+
+}
+
+.pricing-tier:hover::before,
+.pricing-tier.highlighted::before {
+  opacity: 1;
+}
+
+.pricing-tier:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
 }
 
 .pricing-tier.highlighted {
-  border: 2px solid #667eea; /* Highlighted border color */
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color), 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
 }
 
 .tier-name {
-  font-size: 1.5rem; /* Increased font size */
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color);
+  
 }
 
 .tier-description {
-  color: #718096;
-  margin-bottom: 1rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
 .tier-price {
-  font-size: 2.5rem; /* Increased font size for price */
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--text-color);
 }
 
 .tier-price span {
-  font-size: 1.2rem; /* Increased font size for currency */
-  font-weight: 400;
-  color: #718096;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
 }
 
 .signup-button {
   width: 100%;
-  padding: 0.75rem; /* Increased padding for buttons */
-  border-radius: 0.25rem;
+  padding: 1rem;
+  border-radius: 8px;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .signup-button.primary {
-  background-color: #667eea;
+  background-color: var(--primary-color);
   color: #ffffff;
 }
 
 .signup-button.primary:hover {
-  background-color: #5a67d8; /* Darker shade on hover */
+  background-color: var(--secondary-color);
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
 .signup-button.secondary {
-  background-color: #edf2f7;
-  color: #4a5568;
+  background-color: var(--background-dark);
+  color: var(--text-color);
 }
 
 .signup-button.secondary:hover {
-  background-color: #e2e8f0;
+  background-color: var(--border-color);
+  color: var(--primary-color);
+}
+
+.signup-button:disabled {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  cursor: not-allowed;
 }
 
 .feature-list {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  text-align: left;
 }
 
 .feature-item {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
-  justify-content: center; /* Center align feature items */
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
 }
 
 .feature-icon {
-  width: 1rem;
-  height: 1rem;
-  margin-right: 0.5rem;
-  color: #48bb78;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .pricing-container {
+    padding: 3rem 1rem;
+  }
+
+  .pricing-title {
+    font-size: 2.5rem;
+  }
+
+  .pricing-subtitle {
+    font-size: 1.125rem;
+  }
+
+  .pricing-grid {
+    gap: 2rem;
+  }
 }

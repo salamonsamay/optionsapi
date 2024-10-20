@@ -8,12 +8,14 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
+      setStatus(400);
       setMessage("Passwords do not match!");
       return;
     }
@@ -33,18 +35,21 @@ const ChangePassword = () => {
         }),
       });
 
-      const data = await response.json(); // Parsing the response to get the message
+      const data = await response.text(); // Get the response as text
+      setStatus(response.status);
+      setMessage(data); // Set the message from the response
 
       if (response.ok) {
-        setMessage(data.message || "Password updated successfully");
         setPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        navigate("/account");
-      } else {
-        setMessage(data.message || "Failed to update password");
+        // Display the message for a few seconds, then navigate
+        setTimeout(() => {
+          navigate("/account");
+        }, 2000); // Adjust the delay as needed
       }
     } catch (error) {
+      setStatus(500);
       setMessage("Error updating password");
     }
   };
@@ -94,7 +99,13 @@ const ChangePassword = () => {
             required
           />
         </div>
-        {message && <p className="message">{message}</p>}
+        {status && (
+          <p className={`message ${status === 200 ? "success" : "error"}`}>
+            Status: {status}
+            <br />
+            Message: {message}
+          </p>
+        )}
         <button type="submit" className="btn-primary">
           Update Password
         </button>
@@ -103,5 +114,4 @@ const ChangePassword = () => {
   );
 };
 
-// Exporting the ChangePassword component as default
 export default ChangePassword;

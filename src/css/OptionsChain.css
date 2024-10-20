@@ -1,41 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-:root {
-  --primary-color: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary-color: #10b981;
-  --text-color: #1f2937;
-  --bg-color: #f3f4f6;
-  --card-bg: #ffffff;
-}
-
-body {
-  position: relative;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* border: 5px solid rgb(37, 142, 58); */
-  
-  
-
-}
-
 .options-chain-container {
-  position: relative;
-  width: 600px; /* Set a fixed width */
+  width: 100%;
+  max-width: 600px;
   margin: 40px auto;
-  padding: 40px;
-  background: var(--card-bg);
+  padding: 30px;
+  background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  /* border: 5px solid rebeccapurple; */
+  border: 2px solid #e0e0e0;
 }
-
-
 
 .options-chain-container:hover {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
@@ -43,8 +16,8 @@ body {
 }
 
 h2 {
-  color: var(--primary-color);
-  font-size: 32px;
+  color: #333;
+  font-size: 28px;
   font-weight: 600;
   margin-bottom: 20px;
   text-align: center;
@@ -52,23 +25,22 @@ h2 {
 }
 
 p {
-  color: #6b7280;
-  font-size: 18px;
+  color: #666;
+  font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
 .form-group {
-  position: relatsive;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #4b5563;
+  color: #444;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -78,7 +50,7 @@ p {
 .form-group select {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -87,17 +59,13 @@ p {
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
   outline: none;
 }
 
-.form-group input[type="date"] {
-  font-family: 'Poppins', sans-serif;
-}
-
 .run-query-btn {
-  background-color: var(--primary-color);
+  background-color: #4a90e2;
   color: white;
   padding: 14px 24px;
   border: none;
@@ -108,13 +76,13 @@ p {
   transition: all 0.3s ease;
   display: block;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .run-query-btn:hover {
-  background-color: var(--primary-dark);
+  background-color: #3a7bc8;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
 }
 
 .run-query-btn:active {
@@ -122,36 +90,40 @@ p {
 }
 
 .query-url {
-  background-color: #f9fafb;
+  background-color: #f5f7fa;
   border-radius: 8px;
   padding: 16px;
   margin-top: 24px;
   font-family: 'Courier New', monospace;
   font-size: 14px;
   word-break: break-all;
+  border: 1px solid #e0e0e0;
 }
 
 .copy-url-btn {
-  background-color: var(--secondary-color);
+  background-color: #27ae60;
   color: white;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
-  margin-top: 10px;
+  margin-top: 15px;
+  display: block;
+  width: 100%;
 }
 
 .copy-url-btn:hover {
-  background-color: #059669;
+  background-color: #219a52;
   transform: translateY(-2px);
 }
 
+/* Modal styles */
 .modal-overlay {
-  position: absolute;
- 
-
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.75);
@@ -166,8 +138,8 @@ p {
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  background: var(--card-bg);
-  padding: 40px;
+  background: #ffffff;
+  padding: 30px;
   border-radius: 16px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   animation: modalFadeIn 0.5s ease;
@@ -186,23 +158,24 @@ p {
 
 .modal-content h3 {
   font-size: 24px;
-  color: var(--primary-color);
+  color: #4a90e2;
   margin-bottom: 20px;
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid #4a90e2;
   padding-bottom: 10px;
 }
 
 .modal-content pre {
-  background-color: #f1f5f9;
+  background-color: #f5f7fa;
   padding: 20px;
   border-radius: 8px;
   overflow-x: auto;
   font-size: 14px;
   line-height: 1.6;
+  border: 1px solid #e0e0e0;
 }
 
 .modal-content button {
-  background-color: var(--primary-color);
+  background-color: #4a90e2;
   color: white;
   padding: 12px 24px;
   border: none;
@@ -212,66 +185,33 @@ p {
   font-weight: 500;
   transition: all 0.3s ease;
   margin-top: 20px;
+  width: 100%;
 }
 
 .modal-content button:hover {
-  background-color: var(--primary-dark);
+  background-color: #3a7bc8;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
 }
 
 @media (max-width: 640px) {
-  .options-chain-container {
-    padding: 30px 20px;
+  .options-chain-container,
+  .modal-content {
+    padding: 25px 20px;
   }
 
-  h2 {
-    font-size: 28px;
+  h2, .modal-content h3 {
+    font-size: 24px;
   }
 
   p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
-  .run-query-btn {
+  .run-query-btn,
+  .copy-url-btn,
+  .modal-content button {
     font-size: 16px;
+    padding: 12px 20px;
   }
-}
-
-
-.documentation {
-  position: relative;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9; /* Light grey background */
-  color: #333; /* Dark text color */
-  padding: 20px;
-  margin: 20px;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 600px; /* Limit the width */
-  line-height: 1.6; /* Better readability */
-  /* border: 5px solid rgb(37, 142, 58); */
-  
-}
-
-.documentation h1, .documentation h2, .documentation h3 {
-  color: #2c3e50; /* Darker heading colors */
-}
-
-.documentation p {
-  margin-bottom: 16px; /* Space between paragraphs */
-}
-
-.documentation a {
-  color: #3498db; /* Blue links */
-  text-decoration: none;
-}
-
-.documentation a:hover {
-  text-decoration: underline; /* Underline on hover */
-}
-
-.documentation ul {
-  margin-left: 20px;
-  list-style-type: disc;
 }

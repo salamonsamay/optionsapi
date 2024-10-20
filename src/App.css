@@ -1,6 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  line-height: 1.6;
+}
+
 .container {
   display: flex;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
@@ -23,6 +36,16 @@
   margin-bottom: 10px;
 }
 
+.sidebar ul li a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+  color: #007bff;
+}
+
 .content {
   flex: 1;
   padding: 20px;
@@ -41,14 +64,17 @@
 
 .plan h2, .libraries h2 {
   margin-bottom: 10px;
+  color: #007bff;
 }
 
 button {
-  padding: 10px;
+  padding: 10px 15px;
   background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {

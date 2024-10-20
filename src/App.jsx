@@ -16,6 +16,7 @@ import NavBar from "./NavBar";
 import Account from "./account/Account";
 import ChangePassword from "./account/ChangePassword";
 import Home from "./Home";
+import OptionProbabilty from "./OptionProbability";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,6 +89,7 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/calculator" element={<OptionProbabilty />} />
         </Routes>
       </div>
     </Router>

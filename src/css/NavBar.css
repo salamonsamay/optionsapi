@@ -1,6 +1,6 @@
-/* General NavBar styles (same as before) */
+/* General NavBar styles */
 .navbar {
-  background-color: rgba(0, 47, 255, 0.35);
+  background-color: rgba(15, 23, 42, 0.8);
   padding: 15px 30px;
   width: 100%;
   position: fixed;
@@ -9,9 +9,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 /* Navbar list */
@@ -24,68 +25,117 @@
 
 /* Individual navbar items */
 .navbar-item {
-  margin-right: 30px;
+  margin-right: 20px;
   position: relative;
 }
 
 /* Navbar links */
 .navbar-link {
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 12px 20px;
-  border-radius: 25px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-link:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
 }
 
 .navbar-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  transform: translateY(-2px);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.navbar-link:hover:before {
+  width: 100%;
 }
 
 /* New Account Button Style */
 .navbar-button {
-  background-color: transparent; /* Make button background transparent */
-  color: white; /* White text */
-  font-size: 18px; /* Same font size as links */
-  font-weight: 600; /* Bold font */
-  padding: 12px 20px; /* Same padding for consistency */
-  border: none; /* Remove default button border */
-  border-radius: 25px; /* Match the rounded corners of links */
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  background-color: #3b82f6;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
 }
 
 .navbar-button:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
-  transform: translateY(-2px); /* Slight lift effect on hover */
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(59, 130, 246, 0.2);
 }
 
 /* Right-side items for account and logout */
 .navbar-right {
-  position: absolute;
   display: flex;
   align-items: center;
-  right: 30px; /* Adjusted for balance */
-  
 }
 
-/* Responsive layout for small screens (same as before) */
+/* Responsive layout for small screens */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    padding: 10px;
+    padding: 15px;
   }
 
   .navbar-list {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
   .navbar-item {
     margin-right: 0;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    width: 100%;
   }
+
+  .navbar-link,
+  .navbar-button {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar-right {
+    margin-top: 15px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Optional: Add a logo or brand name style */
+.navbar-brand {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+/* Optional: Add an active state for the current page */
+.navbar-link.active {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #ffffff;
+}
+
+.navbar-link.active:before {
+  width: 100%;
 }

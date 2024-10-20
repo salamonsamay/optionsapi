@@ -28,11 +28,11 @@ const Home = () => {
               description:
                 "Access up-to-the-minute information on various options, including pricing, volatility, and expiration dates.",
             },
-            {
-              title: "Historical Data",
-              description:
-                "Retrieve historical options data for in-depth analysis and research purposes.",
-            },
+            // {
+            //   title: "Historical Data",
+            //   description:
+            //     "Retrieve historical options data for in-depth analysis and research purposes.",
+            // },
             {
               title: "Comprehensive Coverage",
               description:
@@ -43,11 +43,11 @@ const Home = () => {
               description:
                 "Our detailed documentation makes it easy for developers to integrate and utilize our API effectively.",
             },
-            {
-              title: "Support",
-              description:
-                "We offer dedicated support to assist you with any questions or challenges you may encounter.",
-            },
+            // {
+            //   title: "Support",
+            //   description:
+            //     "We offer dedicated support to assist you with any questions or challenges you may encounter.",
+            // },
           ].map((feature, index) => (
             <div key={index} className="feature-item">
               <div className="feature-icon"></div>
