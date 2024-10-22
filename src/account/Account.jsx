@@ -62,6 +62,14 @@ const Account = () => {
             <p>
               <strong>API Key:</strong> <span>{user.apiKey}</span>
             </p>
+            <p>
+              <strong>Is Enabled:</strong>{" "}
+              <span>{user.enabled ? "Yes" : "No"}</span>
+            </p>
+            <p>
+              <strong>Payment Expiration:</strong>{" "}
+              <span>{user.paymentExpirationDate}</span>
+            </p>
           </div>
 
           <h3>Account Settings</h3>

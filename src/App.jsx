@@ -17,7 +17,7 @@ import Account from "./account/Account";
 import ChangePassword from "./account/ChangePassword";
 import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
-
+import PaymentComponent from "./pay/PaymentComponent";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
