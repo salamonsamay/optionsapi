@@ -1,77 +1,68 @@
-import React, { useEffect, useRef } from "react";
-import API_URL from "./config/config.jsx"; // Adjust the import path accordingly
+import React, { useState } from "react";
+import API_URL from "./config/config";
 
 const PayPalCheckout = () => {
-  const paypalRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (window.paypal) {
-      window.paypal
-        .Buttons({
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: {
-                    value: "10.00", // Set the amount to 10 USD
-                    currency_code: "USD",
-                  },
-                  description: "Payment for your order",
-                },
-              ],
-            });
-          },
-          onApprove: async (data, actions) => {
-            try {
-              const details = await actions.order.capture();
-              console.log(
-                "Transaction completed by:",
-                details.payer.name.given_name
-              );
+  const handleCreatePayment = async () => {
+    console.log("Starting payment creation process...");
+    setIsLoading(true);
+    setError(null);
 
-              const orderId = data.orderID;
-              const payerId = data.payerID;
+    try {
+      console.log("Sending POST request to create PayPal payment...");
+      const response = await fetch(`${API_URL}/api/paypal/createPayment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorizaion: "Barer ${token}",
+        },
+      });
 
-              console.log("orderId:", orderId);
-              console.log("payerId:", payerId);
+      console.log("Received response from server, processing data...");
+      const data = await response.json();
 
-              const token = localStorage.getItem("token");
+      if (!response.ok) {
+        console.error("Error response from server:", data);
+        throw new Error(data.error || "Error creating PayPal payment");
+      }
 
-              if (!token) {
-                throw new Error("Token not found. Please log in.");
-              }
-
-              // Use API_URL here
-              const response = await fetch(`${API_URL}/api/paypal/payment`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  orderId: orderId,
-                  payerId: payerId,
-                }),
-              });
-
-              if (!response.ok) {
-                const errorDetails = await response.text();
-                throw new Error(`Failed to verify payment: ${errorDetails}`);
-              }
-
-              const result = await response.json();
-              console.log("Transaction verified by server:", result);
-            } catch (error) {
-              console.error("Error processing payment:", error.message);
-              alert(`Error: ${error.message}`);
-            }
-          },
-        })
-        .render(paypalRef.current);
+      // Redirect to PayPal
+      if (data.approvalUrl) {
+        console.log(
+          "Approval URL received, redirecting to PayPal:",
+          data.approvalUrl
+        );
+        window.location.href = data.approvalUrl;
+      } else {
+        console.error("No approval URL received in response.");
+        throw new Error("No approval URL received");
+      }
+    } catch (error) {
+      console.error("Payment creation error:", error);
+      setError(error.message);
+    } finally {
+      console.log("Payment creation process finished.");
+      setIsLoading(false);
     }
-  }, []);
+  };
 
-  return <div ref={paypalRef}></div>;
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {error && (
+        <div className="text-red-500 bg-red-100 p-3 rounded-md">{error}</div>
+      )}
+
+      <button
+        onClick={handleCreatePayment}
+        disabled={isLoading}
+        className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
+      >
+        {isLoading ? "Processing..." : "Pay with PayPal"}
+      </button>
+    </div>
+  );
 };
 
 export default PayPalCheckout;
