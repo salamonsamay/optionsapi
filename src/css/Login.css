@@ -1,96 +1,165 @@
-/* Login.css */
-
-
-.login-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s; /* Smooth transition */
+/* General layout */
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
 }
 
-.login-container:hover {
-  transform: translateY(-5px); /* Lift effect on hover */
+/* Left side with the image */
+.left-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #88BDBC; /* Light background color */
+}
+
+.image-container {
+  width: 80%;
+  height: 80%;
+  background-color: #d8f3dc; /* Light green background for the square */
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.background-image {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  object-fit: cover; /* Make sure the image covers the container */
+}
+
+/* Right side with the form */
+.right-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-box {
+  max-width: 400px;
+  width: 100%;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 26px; /* Slightly larger font size */
-  font-weight: 700; /* Bolder font */
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #254E58; /* Adjust according to your color scheme */
 }
 
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #555;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #6e6658; /* Label color */
 }
 
 .input-group input {
   width: 100%;
   padding: 12px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
   font-size: 16px;
-  transition: border-color 0.3s;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
 }
 
 .input-group input:focus {
-  outline: none;
-  border-color: #6a11cb; /* Match focus border with gradient color */
-  box-shadow: 0 0 5px rgba(106, 17, 203, 0.5); /* Glow effect */
+  border-color: #88BDBC; /* Focused border color */
 }
 
+.forgot-password {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #88BDBC;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.remember-me input {
+  margin-right: 10px;
+}
+
+/* Primary button */
 .btn-primary {
   width: 100%;
   padding: 12px;
-  background-color: #6a11cb; /* Primary color matching the gradient */
+  background-color: #254E58;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #1c3b47;
+}
+
+/* Social login button */
+.btn-google {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #333;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
-  transition: background-color 0.3s, transform 0.3s; /* Add transform on hover */
 }
 
-.btn-primary:hover {
-  background-color: #5a09a0; /* Darker shade on hover */
-  transform: translateY(-2px); /* Lift effect on hover */
+.btn-google:hover {
+  background-color: #444;
 }
 
-.error-message {
-  color: #dc3545;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.additional-options {
-  display: flex;
-  justify-content: space-between;
+/* Sign up link */
+.sign-up {
   margin-top: 20px;
 }
 
-.btn-secondary {
-  background-color: transparent;
-  color: #6a11cb; /* Match secondary button color */
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
+.sign-up p {
   font-size: 14px;
-  transition: color 0.3s, text-decoration 0.3s;
 }
 
-.btn-secondary:hover {
-  color: #5a09a0; /* Darker color on hover */
+.sign-up a {
+  color: #88BDBC;
+  text-decoration: none;
+}
+
+.sign-up a:hover {
   text-decoration: underline;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
 }

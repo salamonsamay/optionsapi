@@ -1,199 +1,119 @@
-/* Pricing.css */
-
-
-
+/* Full-page centering */
 .pricing-container {
-  position: absolute;
-  max-width: 1200px; /* Set a max width for the container */
-  padding: 2rem; /* Add padding around the content */
-  background-color: #f9fafb; /* Light background color */
-  border-radius: 1rem; /* Rounded corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  /* border: 2px solid rgb(241, 60, 60); */
-  top: 60px;
-  left: 200px;
-  
-
-}
-
-.pricing-header {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
   text-align: center;
-  margin-bottom: 4rem;
-  
-}
-
-.pricing-title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  letter-spacing: -0.025em;
-  
-}
-
-.pricing-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-light);
-  max-width: 600px;
-  margin: 0 auto;
-  
-}
-
-.pricing-grid {
-  display: grid;
-  gap: 2.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  max-width: 1280px;
-  margin: 0 auto;
-  
-}
-
-.pricing-tier {
-  position: relative;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 2.5rem;
-  transition: all 0.3s ease;
-  background-color: #ffffff;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid blue;
-  transform: scale(0.7); /* Add this line to create a zoomed-out effect */
-  bottom: 190px;
-}
-
-.pricing-tier:hover {
-  transform: scale(1); /* Change this line to zoom in on hover */
-  box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
-}
-
-.pricing-tier::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border: 2px solid blue
-
-}
-
-.pricing-tier:hover::before,
-.pricing-tier.highlighted::before {
-  opacity: 1;
-}
-
-.pricing-tier:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
-}
-
-.pricing-tier.highlighted {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-color), 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
-}
-
-.tier-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--primary-color);
-  
-}
-
-.tier-description {
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-}
-
-.tier-price {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-}
-
-.tier-price span {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-light);
-}
-
-.signup-button {
+  min-height: 100vh;
+  padding: 40px;
   width: 100%;
-  padding: 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  max-width: 1200px; /* Ensures centering within a maximum width */
+  box-sizing: border-box;
+  margin: auto;
 }
 
-.signup-button.primary {
-  background-color: var(--primary-color);
-  color: #ffffff;
+/* Title styling */
+.pricing-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #254E58;
 }
 
-.signup-button.primary:hover {
-  background-color: var(--secondary-color);
-  box-shadow: 0 4px 6px var(--shadow-color);
-}
-
-.signup-button.secondary {
-  background-color: var(--background-dark);
-  color: var(--text-color);
-}
-
-.signup-button.secondary:hover {
-  background-color: var(--border-color);
-  color: var(--primary-color);
-}
-
-.signup-button:disabled {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-  cursor: not-allowed;
-}
-
-.feature-list {
-  margin-top: 2rem;
-  text-align: left;
-}
-
-.feature-item {
+/* Center toggle buttons */
+.toggle-buttons {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
 }
 
-.feature-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.75rem;
-  color: var(--primary-color);
+.toggle-btn {
+  background-color: #254E58;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
-@media (max-width: 768px) {
-  .pricing-container {
-    padding: 3rem 1rem;
-  }
+.toggle-btn:hover {
+  background-color: #1c3b47;
+}
 
-  .pricing-title {
-    font-size: 2.5rem;
-  }
+/* Center the plans grid */
+.plans-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px; /* Constrain to prevent overflow */
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
 
-  .pricing-subtitle {
-    font-size: 1.125rem;
-  }
+.plan-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  position: relative;
+  text-align: center;
+}
 
-  .pricing-grid {
-    gap: 2rem;
-  }
+.plan-box h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #254E58;
+}
+
+.plan-box .price {
+  font-size: 2rem;
+  color: #6E6658;
+  margin-bottom: 20px;
+}
+
+.plan-box .description {
+  font-size: 1rem;
+  color: #6E6658;
+  margin-bottom: 20px;
+}
+
+.plan-btn {
+  background-color: #254E58;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.plan-btn:hover {
+  background-color: #1c3b47;
+}
+
+.most-popular {
+  background-color: #1c1c3b;
+  color: white;
+}
+
+.most-popular .plan-btn {
+  background-color: #6C5CE7;
+}
+
+.popular-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: green;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Reset margins and padding for html and body */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }

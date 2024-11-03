@@ -1,129 +1,69 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./css/Pricing.css";
-
-const PricingTier = ({
-  tier,
-  price,
-  features,
-  highlighted,
-  onSignUp,
-  isCurrentPlan,
-}) => (
-  <div className={`pricing-tier ${highlighted ? "highlighted" : ""}`}>
-    <h2 className="tier-name">{tier}</h2>
-    <p className="tier-description">Great for {features[0].toLowerCase()}</p>
-    <p className="tier-price">
-      ${price}
-      <span>/month</span>
-    </p>
-    {isCurrentPlan ? (
-      <button
-        className={`signup-button ${highlighted ? "primary" : "secondary"}`}
-        disabled
-      >
-        Current Plan
-      </button>
-    ) : (
-      <button
-        className={`signup-button ${highlighted ? "primary" : "secondary"}`}
-        onClick={onSignUp}
-      >
-        Sign up
-      </button>
-    )}
-    <ul className="feature-list">
-      {features.map((feature, index) => {
-        const featureContent =
-          feature.includes("Real-time Data") ||
-          feature.includes("Unlimited API Calls") ? (
-            <strong>{feature}</strong>
-          ) : (
-            feature
-          );
-
-        return (
-          <li key={index} className="feature-item">
-            <svg
-              className="feature-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-            {featureContent}
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-);
+import React from 'react';
+import './css/Pricing.css';
 
 const Pricing = () => {
-  const navigate = useNavigate();
-  const isSubscribed = localStorage.getItem("isSubscribed") === "true";
-  const currentPlan = isSubscribed ? "Advanced" : "Basic"; // Assuming "Advanced" is the subscribed plan
-
-  const handleSignUp = (tier) => {
-    if (tier === "Advanced" && !isSubscribed) {
-      navigate("/paypal-checkout");
-    }
-  };
-
-  const tiers = [
+  const plans = [
     {
-      tier: "Basic",
-      price: 0,
-      features: [
-        "Great for real-time data",
-        "All US Options Tickers",
-        "10 API Calls per Minute",
-        "Real-time Data",
-        "Technical Indicators",
-        "Greeks, IV, & Open Interest",
-        "Snapshot",
-      ],
+      name: 'Basic Plan',
+      price: '$49.00/month',
+      description: 'Access to API\n10 API Calls per Minute\nEmail Support\nBasic Documentation\nPriority Support',
+      buttonText: 'Start Plan',
+      popular: false,
     },
     {
-      tier: "Advanced",
-      price: 10,
-      features: [
-        "Great for real-time data",
-        "All US Options Tickers",
-        "Unlimited API Calls",
-        "Real-time Data",
-        "Technical Indicators",
-        "Greeks, IV, & Open Interest",
-        "Snapshot",
-      ],
-      highlighted: true,
+      name: 'Standard Plan',
+      price: '$99.00/month',
+      description: 'Access to API\nUnlimited API Calls\nEmail Support\nPremium Documentation\nPriority Support',
+      buttonText: 'Start Plan',
+      popular: true,
+    },
+    {
+      name: 'Advanced Plan',
+      price: '$149.00/month',
+      description: 'Access to API\nUnlimited API Calls\nEmail and Phone Support\nPremium Documentation\nDedicated Support',
+      buttonText: 'Start Plan',
+      popular: false,
     },
   ];
 
   return (
-    <div className="pricing-container">
-      <div className="pricing-header">
-        <h2 className="pricing-title">Pricing</h2>
-        <p className="pricing-subtitle">Choose the plan that's right for you</p>
+    <main
+      className="pricing-container"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textAlign: 'center',
+        width: '100%',
+        margin: 'auto',
+        minHeight: '100vh',
+      }}
+    >
+      <h2 className="pricing-title">Choose the plan that's right for you</h2>
+      <div className="toggle-buttons">
+        <button className="toggle-btn">Yearly -20%</button>
+        <button className="toggle-btn">Monthly</button>
       </div>
-      <div className="pricing-grid">
-        {tiers.map((tier, index) => (
-          <PricingTier
-            key={index}
-            {...tier}
-            onSignUp={() => handleSignUp(tier.tier)}
-            isCurrentPlan={tier.tier === currentPlan}
-          />
+      <div className="plans-grid">
+        {plans.map((plan, index) => (
+          <div key={index} className={`plan-box ${plan.popular ? 'most-popular' : ''}`}>
+            {plan.popular && <span className="popular-badge">Most Popular</span>}
+            <h3>{plan.name}</h3>
+            <p className="price">{plan.price}</p>
+            <p className="description">
+              {plan.description.split('\n').map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </p>
+            <button className="plan-btn">{plan.buttonText}</button>
+          </div>
         ))}
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -7,9 +7,8 @@ const calculateCallProbability = (
   volatility,
   riskFreeRate,
   timeToMaturity,
-  steps
+  steps = 300
 ) => {
-  steps = 300;
   timeToMaturity = timeToMaturity / 365.0; // Convert days to years
   const sqrtTOverSteps = Math.sqrt(timeToMaturity / steps);
   const expRTOverSteps = Math.exp((riskFreeRate * timeToMaturity) / steps);
@@ -52,116 +51,110 @@ const calculateCallProbability = (
     }
   }
 
-  if (probabilities[0][0] <= 0) {
-    return Number.MIN_VALUE;
-  }
-  if (probabilities[0][0] >= 1) {
-    return 1 - Number.MIN_VALUE;
-  }
-
   return probabilities[0][0];
-};
-
-const calculator = (
-  stockPrice,
-  strikePrice,
-  iv,
-  strikePrice2,
-  iv2,
-  riskFreeRate,
-  time
-) => {
-  const r = calculateCallProbability(
-    stockPrice,
-    strikePrice,
-    iv,
-    riskFreeRate,
-    time,
-    700
-  );
-  const r2 = calculateCallProbability(
-    stockPrice,
-    strikePrice2,
-    iv2,
-    riskFreeRate,
-    time,
-    700
-  );
-  return {
-    probabilityBelow: 1 - r,
-    probabilityAbove: r2,
-    probabilityBetween: 1 - (r2 + (1 - r)),
-  };
 };
 
 const OptionProbability = () => {
   const [inputs, setInputs] = useState({
     stockPrice: "",
     strikePrice: "",
-    iv: "",
-    strikePrice2: "",
-    iv2: "",
+    volatility: "",
     riskFreeRate: "",
-    time: "", // Initial value is an empty string
+    time: "", // Time to expiration in days
   });
-
-  const [results, setResults] = useState(null);
+  const [result, setResult] = useState(null);
 
   const handleInputChange = (e) => {
     setInputs({
       ...inputs,
-      [e.target.name]: e.target.value, // No parseFloat until submit
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const result = calculator(
-      parseFloat(inputs.stockPrice),
-      parseFloat(inputs.strikePrice),
-      parseFloat(inputs.iv),
-      parseFloat(inputs.strikePrice2),
-      parseFloat(inputs.iv2),
-      parseFloat(inputs.riskFreeRate),
-      parseFloat(inputs.time) // Convert string inputs to floats
+    const { stockPrice, strikePrice, volatility, riskFreeRate, time } = inputs;
+    const probability = calculateCallProbability(
+      parseFloat(stockPrice),
+      parseFloat(strikePrice),
+      parseFloat(volatility),
+      parseFloat(riskFreeRate),
+      parseFloat(time)
     );
-    setResults(result);
+    setResult(probability);
   };
 
   return (
-    <div className="option-probability">
-      <h2>Option Probability Calculator</h2>
-      <div className="form-results-container">
-        <form onSubmit={handleSubmit} className="probability-form">
-          {Object.keys(inputs).map((key) => (
-            <div key={key} className="input-group">
-              <label htmlFor={key}>
-                {key === "time"
-                  ? "Days to Expiration" // Rename the label for 'time'
-                  : key.charAt(0).toUpperCase() + key.slice(1)}
-                :
-              </label>
-              <input
-                type="number"
-                id={key}
-                name={key}
-                value={inputs[key]}
-                onChange={handleInputChange}
-                step="0.01"
-                required
-              />
-            </div>
-          ))}
-          <button type="submit" className="calculate-button">
-            Calculate
+    <div className="option-probability-container">
+      <div className="form-box">
+        <h1>Option Probability Calculator</h1>
+        <p>Calculate the probability of a call option ending in-the-money.</p>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="stockPrice">Stock Price</label>
+            <input
+              type="number"
+              id="stockPrice"
+              name="stockPrice"
+              value={inputs.stockPrice}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="strikePrice">Strike Price</label>
+            <input
+              type="number"
+              id="strikePrice"
+              name="strikePrice"
+              value={inputs.strikePrice}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="volatility">Volatility</label>
+            <input
+              type="number"
+              step="0.01"
+              id="volatility"
+              name="volatility"
+              value={inputs.volatility}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="riskFreeRate">Risk-Free Rate</label>
+            <input
+              type="number"
+              step="0.01"
+              id="riskFreeRate"
+              name="riskFreeRate"
+              value={inputs.riskFreeRate}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="time">Time to Expiration (days)</label>
+            <input
+              type="number"
+              id="time"
+              name="time"
+              value={inputs.time}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <button type="submit" className="btn-primary">
+            Calculate Probability
           </button>
         </form>
-        {results && (
-          <div className="results">
-            <h3>Results:</h3>
-            <p>Probability Below: {results.probabilityBelow.toFixed(4)}</p>
-            <p>Probability Above: {results.probabilityAbove.toFixed(4)}</p>
-            <p>Probability Between: {results.probabilityBetween.toFixed(4)}</p>
+        {result !== null && (
+          <div className="result-box">
+            <h3>Probability Result:</h3>
+            <p>{(result * 100).toFixed(2)}%</p>
           </div>
         )}
       </div>

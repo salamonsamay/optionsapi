@@ -2,17 +2,23 @@
 .navbar {
   background-color: rgba(15, 23, 42, 0.8);
   padding: 15px 30px;
-  width: 100%;
-  position: fixed;
+  width: 100%; /* Ensure full width */
+  position: fixed; /* Fixed position at the top */
   top: 0;
+  left: 0; /* Align the navbar to the left */
   z-index: 1000;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between items */
   align-items: center;
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+}
+
+/* Ensure no margin or padding on body to avoid navbar positioning issues */
+body {
+  margin: 0; /* Reset margin for body */
 }
 
 /* Navbar list */
@@ -42,6 +48,7 @@
   overflow: hidden;
 }
 
+/* Hover and active states */
 .navbar-link:before {
   content: '';
   position: absolute;

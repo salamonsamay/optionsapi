@@ -13,7 +13,6 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
     try {
       const response = await fetch(`${API_URL}/login`, {
-        // Using the API_URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,8 +26,7 @@ const Login = ({ setIsAuthenticated }) => {
         const data = await response.json();
         localStorage.setItem("token", data.token);
         localStorage.setItem("apiKey", data.apiKey);
-        localStorage.setItem("email", data.email); // Storing email in localStorage
-        localStorage.setItem("isSubscribed", data.isSubscribe); // Store subscription status if needed
+        localStorage.setItem("email", data.email);
 
         setIsAuthenticated(true);
         navigate("/optionsChain");
@@ -43,44 +41,61 @@ const Login = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+    <div className="login-wrapper">
+      <div className="left-side">
+        <div className="image-container">
+          <img
+            src="https://i.ibb.co/pLCfQ3G/24.jpg" // Using your image URL
+            alt="Background"
+            className="background-image"
           />
         </div>
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+      </div>
+      <div className="right-side">
+        <div className="login-box">
+          <h2>Nice to see you again</h2>
+          <form onSubmit={handleLogin}>
+            <div className="input-group">
+              <label htmlFor="email">Email or phone number</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <a href="/forgot-password" className="forgot-password">
+                Forgot password?
+              </a>
+            </div>
+            <div className="remember-me">
+              <input type="checkbox" id="remember" />
+              <label htmlFor="remember">Remember me</label>
+            </div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <button type="submit" className="btn-primary">
+              Sign in
+            </button>
+          </form>
+          <div className="social-login">
+            <button className="btn-google">
+              Or sign in with Google
+            </button>
+          </div>
+          <div className="sign-up">
+            <p>Don't have an account? <a href="/register">Sign up now</a></p>
+          </div>
         </div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit" className="btn-primary">
-          Login
-        </button>
-      </form>
-      <div className="additional-options">
-        <button
-          className="btn-secondary"
-          onClick={() => navigate("/forgot-password")}
-        >
-          Forgot Password
-        </button>
-        <button className="btn-secondary" onClick={() => navigate("/register")}>
-          Sign Up
-        </button>
       </div>
     </div>
   );

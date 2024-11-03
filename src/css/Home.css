@@ -1,114 +1,116 @@
-
+/* General layout */
 .home-container {
-  max-width: 1200px; /* Set a max width for the container */
-  margin: 0 auto; /* Center the container */
-  padding: 2rem; /* Add padding around the content */
-  background-color: #f9fafb; /* Light background color */
-  border-radius: 1rem; /* Rounded corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
 }
 
-.header {
+/* Hero Section */
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #f0f0f0;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
   position: relative;
-  text-align: center; /* Center the header text */
-  background: linear-gradient(to right, #6366f1, #ec4899); /* Gradient background */
-  padding: 2rem;
-  border-radius: 1rem 1rem 0 0; /* Rounded corners on top */
-  border: 2px solid rgb(219, 202, 16);
-  bottom: 30px;
-  
-
+  top: 0;
 }
 
-.header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
+.hero-content {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Replacing the orange square with the image */
+.hero-image {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover; /* Ensures the image maintains its aspect ratio */
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 36px;
+  color: #254E58; /* Primary color */
+  margin-bottom: 15px;
+}
+
+.hero-text p {
+  font-size: 18px;
+  color: #6e6658;
+  margin-bottom: 20px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #254E58;
   color: white;
-  
 }
 
-
-.home-container {
-
-  position: relative;
-  max-width: 1200px; /* Set a max width for the container */
-  margin: 0 auto; /* Center the container */
-  padding: 2rem; /* Add padding around the content */
-  background-color: #f9fafb; /* Light background color */
-  border-radius: 1rem; /* Rounded corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  border: 2px solid rgb(241, 60, 60);
-  bottom: -60px;
-
-
-
-}
-  
-.content {
-  position: relative;
-  background: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  margin-top: -2rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  border: 2px solid black;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+.btn-primary:hover {
+  background-color: #1c3b47;
 }
 
-  
-  .section-title {
-    font-size: 2rem;
-    font-weight: 800;
-    background: linear-gradient(to right, #c084fc, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 2rem 0;
-    
-  }
-  
-  .feature-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-  
-  .feature-item {
-    background: linear-gradient(to right, #6b46c1, #b83280);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-  }
-  
-  .feature-item:hover {
-    transform: scale(1.05);
-  }
-  
-  .feature-icon {
-    width: 24px;
-    height: 24px;
-    background: #e5e7eb;
-    border-radius: 50%;
-    margin-right: 1rem;
-  }
-  
-  .feature-text h3 {
-    font-weight: bold;
-    color: #1f2937;
-  }
-  
-  .feature-text p {
-    color: #4b5563;
-    margin-top: 0.5rem;
-  }
-  
-  .why-choose {
-    color: #4b5563;
-    line-height: 1.5;
-    margin-top: 1.5rem;
-  }
-  
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid #254E58;
+  color: #254E58;
+}
+
+.btn-secondary:hover {
+  background-color: #254E58;
+  color: white;
+}
+
+/* Services Section */
+.services-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Create 3 columns */
+  gap: 40px 10px;
+  justify-items: center;
+  padding: 30px 0;
+  width: 100vw;
+  background-color: white;
+}
+
+.service-box {
+  padding: 30px 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 350px;
+}
+
+.service-box h4 {
+  font-size: 18px;
+  color: #254E58;
+  margin-bottom: 10px;
+}
+
+.service-box p {
+  font-size: 14px;
+  color: #6e6658;
+}

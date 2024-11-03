@@ -2,8 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
+  background-color: #88BDBC; /* Background and main color */
+  color: #ffffff; /* Font color */
   line-height: 1.6;
 }
 
@@ -19,8 +19,8 @@ body {
 .sidebar {
   width: 200px;
   padding: 20px;
-  background-color: #f5f5f5;
-  border-right: 1px solid #ddd;
+  background-color: #254E58; /* Primary color */
+  border-right: 1px solid #6E6658; /* Lighter secondary color */
 }
 
 .sidebar ul {
@@ -28,22 +28,18 @@ body {
   padding: 0;
 }
 
-.sidebar ul ul {
-  padding-left: 20px;
-}
-
 .sidebar ul li {
   margin-bottom: 10px;
 }
 
 .sidebar ul li a {
-  color: #333;
+  color: #ffffff; /* Font color */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-  color: #007bff;
+  color: #4f4a41; /* Additional color */
 }
 
 .content {
@@ -51,25 +47,9 @@ body {
   padding: 20px;
 }
 
-.sidebar-right {
-  width: 200px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-left: 1px solid #ddd;
-}
-
-.plan, .libraries {
-  margin-bottom: 20px;
-}
-
-.plan h2, .libraries h2 {
-  margin-bottom: 10px;
-  color: #007bff;
-}
-
 button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #254E58; /* Button color */
   color: white;
   border: none;
   border-radius: 4px;
@@ -78,5 +58,5 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #6E6658; /* Darker hover effect */
 }

@@ -11,6 +11,9 @@ const ForgotPassword = () => {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setMessage("");
+
     try {
       const response = await fetch(`${API_URL}/user/resetPassword`, {
         method: "POST",
@@ -23,7 +26,7 @@ const ForgotPassword = () => {
       });
 
       if (response.ok) {
-        setMessage("A reset link has been sent to your email.");
+        setMessage("We've sent you instructions to reset your password.");
         setErrorMessage(""); // Clear any previous error messages
       } else {
         const errorData = await response.json();
@@ -39,28 +42,33 @@ const ForgotPassword = () => {
 
   return (
     <div className="forgot-password-container">
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleForgotPassword}>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        {message && <p className="success-message">{message}</p>}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit" className="btn-primary">
-          Send Reset Link
-        </button>
-      </form>
-      <div className="additional-options">
-        <button className="btn-secondary" onClick={() => navigate("/login")}>
-          Back to Login
-        </button>
+      <div className="form-box">
+        <h1>Reset Your Password</h1>
+        <p>
+          Fear not. We’ll email you instructions to reset your password. If you
+          don’t have access to your email anymore, you can try{" "}
+          <a href="/account-recovery">account recovery</a>.
+        </p>
+        <form onSubmit={handleForgotPassword}>
+          <div className="input-group">
+            <label htmlFor="email">Username</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          {message && <p className="success-message">{message}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button type="submit" className="btn-primary">
+            Reset Password
+          </button>
+        </form>
+        <a href="/login" className="return-link">
+          Return to login
+        </a>
       </div>
     </div>
   );
