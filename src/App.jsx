@@ -17,7 +17,9 @@ import Account from "./account/Account";
 import ChangePassword from "./account/ChangePassword";
 import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
-import PaymentComponent from "./pay/PaymentComponent";
+import SuccessPayment from "./SuccessPayment";
+import CancelPayment from "./CancelPayment";
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +92,9 @@ function App() {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/home" element={<Home />} />
           <Route path="/calculator" element={<OptionProbabilty />} />
+          <Route path="/" element={<PayPalCheckout />} />
+          <Route path="/success" element={<SuccessPayment />} />
+          <Route path="/cancel" element={<CancelPayment />} />
         </Routes>
       </div>
     </Router>
