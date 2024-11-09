@@ -17,64 +17,31 @@
   <!-- Include the PayPal SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=ATREEzXHUfhyGhouBiK5fy_98oErWwkyAGhhbkWLGVySiPOoVTpCLDVcC-4_37Y5h6xfT4AI2M7a2CRc"></script>
 
-  <!-- Custom styling for scroll snap and smooth behavior -->
   <style>
-    body, html {
+    * {
       margin: 0;
       padding: 0;
-      scroll-behavior: smooth; /* Smooth scrolling for anchor links */
-      overflow-y: hidden; /* Prevent default scroll */
-      height: 100%;
+      box-sizing: border-box;
     }
 
-    .page-section {
-      height: 100vh; /* Full height of viewport */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      scroll-snap-align: start; /* Snap effect */
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
+    html, body {
       width: 100%;
-      z-index: 1000;
-      /* Add styling for navbar if needed */
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto !important;
+      overflow-x: hidden;
+    }
+
+    #root {
+      min-height: 100%;
+      width: 100%;
+      position: relative;
     }
   </style>
 </head>
 <body>
-  <!-- Navbar with links to each section -->
-  <nav class="navbar">
-    <a href="#home">Home</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
-    <!-- Additional links as needed -->
-  </nav>
-
-  <!-- Main React app container -->
   <div id="root"></div>
-
-  <!-- Scroll handling script -->
-  <script>
-    document.addEventListener('wheel', (event) => {
-      const sections = document.querySelectorAll('.page-section');
-      const currentSectionIndex = Array.from(sections).findIndex(
-        section => section.getBoundingClientRect().top === 0
-      );
-
-      if (event.deltaY > 0 && currentSectionIndex < sections.length - 1) {
-        // Scroll down
-        sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-      } else if (event.deltaY < 0 && currentSectionIndex > 0) {
-        // Scroll up
-        sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  </script>
-
-  <!-- React main file -->
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

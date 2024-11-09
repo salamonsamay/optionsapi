@@ -5,7 +5,7 @@ import "./../css/Account.css";
 import ChangePassword from "./ChangePassword";
 
 const Account = () => {
-  const [user, setUser] = useState(null);
+  const [details, setDetails] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ const Account = () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await fetch("http://localhost:8080/user/data", {
+          const response = await fetch(`${API_URL}/user/data`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -24,7 +24,7 @@ const Account = () => {
 
           if (response.ok) {
             const data = await response.json();
-            setUser(data);
+            setDetails(data);
           } else {
             console.log("Error fetching user data:", response.statusText);
             setMessage("Failed to load user data.");
@@ -42,7 +42,7 @@ const Account = () => {
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -50,26 +50,58 @@ const Account = () => {
     navigate("/change-password");
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
   return (
     <div className="account-container">
       <h2>Account Information</h2>
-      {user ? (
+
+      {details ? (
         <>
           <div className="user-info">
             <p>
-              <strong>Email:</strong> <span>{user.email}</span>
+              <strong>Email:</strong> <span>{details.email}</span>
             </p>
             <p>
-              <strong>API Key:</strong> <span>{user.apiKey}</span>
+              <strong>API Key:</strong> <span>{details.apiKey}</span>
             </p>
             <p>
               <strong>Is Enabled:</strong>{" "}
-              <span>{user.enabled ? "Yes" : "No"}</span>
+              <span>{details.enabled ? "Yes" : "No"}</span>
             </p>
-            <p>
-              <strong>Payment Expiration:</strong>{" "}
-              <span>{user.paymentExpirationDate}</span>
-            </p>
+
+            {/* Subscription Details */}
+            <div className="subscription-info">
+              <h3>Subscription Details</h3>
+              {details.subscription ? (
+                <>
+                  <p>
+                    <strong>Type:</strong>{" "}
+                    <span>{details.subscription.type}</span>
+                  </p>
+                  <p>
+                    <strong>Start Date:</strong>{" "}
+                    <span>{formatDate(details.subscription.startDate)}</span>
+                  </p>
+                  <p>
+                    <strong>End Date:</strong>{" "}
+                    <span>{formatDate(details.subscription.endDate)}</span>
+                  </p>
+                  <p>
+                    <strong>Status:</strong>{" "}
+                    <span>
+                      {details.subscription.active ? "Active" : "Inactive"}
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <p>No active subscription</p>
+              )}
+            </div>
           </div>
 
           <h3>Account Settings</h3>
@@ -89,6 +121,8 @@ const Account = () => {
       ) : (
         <p>Loading user information...</p>
       )}
+
+      {message && <p className="error-message">{message}</p>}
     </div>
   );
 };

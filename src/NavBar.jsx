@@ -1,14 +1,13 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-import "./css/NavBar.css"; // Import the CSS file
+import { Link, useNavigate } from "react-router-dom";
+import "./css/NavBar.css";
 
 function NavBar({ isAuthenticated, onLogout }) {
-  const navigate = useNavigate(); // Get the navigate function
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Call the provided onLogout function
     onLogout();
-    // Navigate to the /login route
+    localStorage.clear();
     navigate("/login");
   };
 
@@ -35,7 +34,6 @@ function NavBar({ isAuthenticated, onLogout }) {
             Contact
           </Link>
         </li>
-        {/* New Calculator Link */}
         <li className="navbar-item">
           <Link to="/calculator" className="navbar-link">
             Option Probability Calculator
@@ -43,26 +41,31 @@ function NavBar({ isAuthenticated, onLogout }) {
         </li>
       </ul>
 
-      {/* Right-side items (Account & Logout) */}
-      {isAuthenticated && (
-        <div className="navbar-right">
-          <ul className="navbar-list">
+      {/* Right-side items (Account & Login/Logout) */}
+      <div className="navbar-right">
+        <ul className="navbar-list">
+          {isAuthenticated ? (
+            <>
+              <li className="navbar-item">
+                <Link to="/account" className="navbar-link">
+                  Account
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/logout" className="navbar-link">
+                  Logout
+                </Link>
+              </li>
+            </>
+          ) : (
             <li className="navbar-item">
-              <button
-                className="navbar-button"
-                onClick={() => (window.location.href = "/account")}
-              >
-                Account
-              </button>
+              <Link to="/login" className="navbar-link">
+                Login
+              </Link>
             </li>
-            <li className="navbar-item">
-              <button className="navbar-link" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
+          )}
+        </ul>
+      </div>
     </nav>
   );
 }

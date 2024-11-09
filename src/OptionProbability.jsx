@@ -1,66 +1,83 @@
 import React, { useState } from "react";
-import "./css/OptionProbability.css"; // Import the CSS file
+import "./css/OptionProbability.css";
 
-const calculateCallProbability = (
+const calculateProbabilities = (
   stockPrice,
-  strikePrice,
-  volatility,
+  lowerStrike,
+  upperStrike,
+  lowerVolatility,
+  upperVolatility,
   riskFreeRate,
   timeToMaturity,
   steps = 300
 ) => {
-  timeToMaturity = timeToMaturity / 365.0; // Convert days to years
+  timeToMaturity = timeToMaturity / 365.0;
+  const avgVolatility = (lowerVolatility + upperVolatility) / 2;
   const sqrtTOverSteps = Math.sqrt(timeToMaturity / steps);
   const expRTOverSteps = Math.exp((riskFreeRate * timeToMaturity) / steps);
 
-  const u = Math.exp(volatility * sqrtTOverSteps);
+  const u = Math.exp(avgVolatility * sqrtTOverSteps);
   const d = 1 / u;
   const pu = (expRTOverSteps - d) / (u - d);
   const pd = 1 - pu;
 
-  const optionValues = Array(steps + 1)
-    .fill()
-    .map(() => Array(steps + 1).fill(0));
-  const probabilities = Array(steps + 1)
+  const priceTree = Array(steps + 1)
     .fill()
     .map(() => Array(steps + 1).fill(0));
 
-  const uPowers = [1.0];
-  const dPowers = [1.0];
-  for (let i = 1; i <= steps; i++) {
-    uPowers[i] = uPowers[i - 1] * u;
-    dPowers[i] = dPowers[i - 1] * d;
-  }
+  const probTree = Array(steps + 1)
+    .fill()
+    .map(() => Array(steps + 1).fill(0));
 
-  for (let j = 0; j <= steps; j++) {
+  // Initialize probability at root
+  probTree[0][0] = 1.0;
+
+  // Forward calculation of probabilities and prices
+  for (let j = 0; j < steps; j++) {
     for (let i = 0; i <= j; i++) {
-      const price = stockPrice * uPowers[j - i] * dPowers[i];
-      optionValues[j][i] = Math.max(0, price - strikePrice); // Call option payoff
+      probTree[j + 1][i] += probTree[j][i] * pu;
+      probTree[j + 1][i + 1] += probTree[j][i] * pd;
     }
   }
+
+  // Calculate final stock prices and count outcomes
+  let aboveUpper = 0;
+  let belowLower = 0;
+  let between = 0;
 
   for (let i = 0; i <= steps; i++) {
-    probabilities[steps][i] = optionValues[steps][i] > 0 ? 1.0 : 0.0; // Set probability of terminal nodes
-  }
+    const upMoves = steps - i;
+    const downMoves = i;
+    const finalPrice =
+      stockPrice * Math.pow(u, upMoves) * Math.pow(d, downMoves);
+    const pathProb = probTree[steps][i];
 
-  for (let j = steps - 1; j >= 0; j--) {
-    for (let i = 0; i <= j; i++) {
-      probabilities[j][i] =
-        (pu * probabilities[j + 1][i] + pd * probabilities[j + 1][i + 1]) *
-        expRTOverSteps;
+    if (finalPrice > upperStrike) {
+      aboveUpper += pathProb;
+    } else if (finalPrice < lowerStrike) {
+      belowLower += pathProb;
+    } else {
+      between += pathProb;
     }
   }
 
-  return probabilities[0][0];
+  return {
+    aboveUpper,
+    belowLower,
+    between,
+  };
 };
 
 const OptionProbability = () => {
+  // ... rest of the component remains the same ...
   const [inputs, setInputs] = useState({
     stockPrice: "",
-    strikePrice: "",
-    volatility: "",
+    lowerStrike: "",
+    upperStrike: "",
+    lowerVolatility: "",
+    upperVolatility: "",
     riskFreeRate: "",
-    time: "", // Time to expiration in days
+    time: "",
   });
   const [result, setResult] = useState(null);
 
@@ -73,13 +90,14 @@ const OptionProbability = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { stockPrice, strikePrice, volatility, riskFreeRate, time } = inputs;
-    const probability = calculateCallProbability(
-      parseFloat(stockPrice),
-      parseFloat(strikePrice),
-      parseFloat(volatility),
-      parseFloat(riskFreeRate),
-      parseFloat(time)
+    const probability = calculateProbabilities(
+      parseFloat(inputs.stockPrice),
+      parseFloat(inputs.lowerStrike),
+      parseFloat(inputs.upperStrike),
+      parseFloat(inputs.lowerVolatility),
+      parseFloat(inputs.upperVolatility),
+      parseFloat(inputs.riskFreeRate),
+      parseFloat(inputs.time)
     );
     setResult(probability);
   };
@@ -88,7 +106,10 @@ const OptionProbability = () => {
     <div className="option-probability-container">
       <div className="form-box">
         <h1>Option Probability Calculator</h1>
-        <p>Calculate the probability of a call option ending in-the-money.</p>
+        <p>
+          Calculate probabilities between two strikes with different
+          volatilities.
+        </p>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="stockPrice">Stock Price</label>
@@ -102,24 +123,47 @@ const OptionProbability = () => {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="strikePrice">Strike Price</label>
+            <label htmlFor="lowerStrike">Lower Strike Price</label>
             <input
               type="number"
-              id="strikePrice"
-              name="strikePrice"
-              value={inputs.strikePrice}
+              id="lowerStrike"
+              name="lowerStrike"
+              value={inputs.lowerStrike}
               onChange={handleInputChange}
               required
             />
           </div>
           <div className="input-group">
-            <label htmlFor="volatility">Volatility</label>
+            <label htmlFor="upperStrike">Upper Strike Price</label>
+            <input
+              type="number"
+              id="upperStrike"
+              name="upperStrike"
+              value={inputs.upperStrike}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="lowerVolatility">Lower Strike IV</label>
             <input
               type="number"
               step="0.01"
-              id="volatility"
-              name="volatility"
-              value={inputs.volatility}
+              id="lowerVolatility"
+              name="lowerVolatility"
+              value={inputs.lowerVolatility}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="upperVolatility">Upper Strike IV</label>
+            <input
+              type="number"
+              step="0.01"
+              id="upperVolatility"
+              name="upperVolatility"
+              value={inputs.upperVolatility}
               onChange={handleInputChange}
               required
             />
@@ -148,13 +192,15 @@ const OptionProbability = () => {
             />
           </div>
           <button type="submit" className="btn-primary">
-            Calculate Probability
+            Calculate Probabilities
           </button>
         </form>
         {result !== null && (
           <div className="result-box">
-            <h3>Probability Result:</h3>
-            <p>{(result * 100).toFixed(2)}%</p>
+            <h3>Probability Results:</h3>
+            <p>Above Upper Strike: {(result.aboveUpper * 100).toFixed(2)}%</p>
+            <p>Below Lower Strike: {(result.belowLower * 100).toFixed(2)}%</p>
+            <p>Between Strikes: {(result.between * 100).toFixed(2)}%</p>
           </div>
         )}
       </div>

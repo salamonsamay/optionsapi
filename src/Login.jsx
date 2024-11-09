@@ -27,6 +27,7 @@ const Login = ({ setIsAuthenticated }) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("apiKey", data.apiKey);
         localStorage.setItem("email", data.email);
+        localStorage.setItem("subType", data.subType);
 
         setIsAuthenticated(true);
         navigate("/optionsChain");
@@ -45,7 +46,8 @@ const Login = ({ setIsAuthenticated }) => {
       <div className="left-side">
         <div className="image-container">
           <img
-            src="https://i.ibb.co/pLCfQ3G/24.jpg" // Using your image URL
+            src="https://media.istockphoto.com/id/500619016/photo/stock-data-concept.jpg?s=1024x1024&w=is&k=20&c=mYILqJma4VmXMNvp_ULBUHJUweIs0A--_jYSx2wgIPM=&p=1" // Using your image URL
+            //    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStG9p4SV7a_2lvRCzFgCkf5H5kIndpFPCYIg&s" // Using your image URL
             alt="Background"
             className="background-image"
           />
@@ -88,12 +90,12 @@ const Login = ({ setIsAuthenticated }) => {
             </button>
           </form>
           <div className="social-login">
-            <button className="btn-google">
-              Or sign in with Google
-            </button>
+            <button className="btn-google">Or sign in with Google</button>
           </div>
           <div className="sign-up">
-            <p>Don't have an account? <a href="/register">Sign up now</a></p>
+            <p>
+              Don't have an account? <a href="/register">Sign up now</a>
+            </p>
           </div>
         </div>
       </div>

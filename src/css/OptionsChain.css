@@ -1,4 +1,5 @@
 .options-chain-container {
+  
   width: 100%;
   max-width: 600px;
   margin: 40px auto;
@@ -10,10 +11,10 @@
   border: 2px solid #e0e0e0;
 }
 
-.options-chain-container:hover {
+/* .options-chain-container:hover {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
   transform: translateY(-5px);
-}
+} */
 
 h2 {
   color: #333;

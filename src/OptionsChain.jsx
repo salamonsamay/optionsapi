@@ -322,8 +322,33 @@ const OptionsChain = () => {
   const navigate = useNavigate();
 
   // Handle button click to go to the PayPal checkout page
-  const handleProceedToPayPal = () => {
-    window.open("/paypal-checkout", "_blank");
+  const handleProceedToPayPal = async () => {
+    try {
+      // Get the JWT token from localStorage
+      const token = localStorage.getItem("token");
+
+      // Make API call to your backend
+      const response = await fetch(`${API_URL}/api/paypal/payment/create`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create PayPal payment");
+      }
+
+      // Get the PayPal URL from the response
+      const paypalUrl = await response.text();
+
+      // Open PayPal in new window
+      window.open(paypalUrl, "_blank");
+    } catch (error) {
+      console.error("Payment creation error:", error);
+      alert("Failed to initiate PayPal payment. Please try again.");
+    }
   };
 
   const token = localStorage.getItem("token");
@@ -490,14 +515,14 @@ const OptionsChain = () => {
 
       <div className="form-group">
         <label>Limit</label>
-        <input
-          type="number"
-          value={limit}
-          onChange={(e) => setLimit(e.target.value)}
-          min="1"
-          max="250"
-        />
-        <small>Specify the maximum number of results to return (1-250).</small>
+        <select value={limit} onChange={(e) => setLimit(e.target.value)}>
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="250">Max (it's may slower )</option>
+        </select>
+        <small>Specify the maximum number of results to return.</small>
       </div>
 
       <div className="form-group">
@@ -542,11 +567,11 @@ const OptionsChain = () => {
         Run Query
       </button>
 
-      <button onClick={handleProceedToPayPal}>Proceed to PayPal</button>
+      {/* <button onClick={handleProceedToPayPal}>Proceed to PayPal</button> */}
 
       {/* Render the Modal */}
 
-      <OptionsChainDocumentation />
+      {/* <OptionsChainDocumentation /> */}
     </div>
   );
 };

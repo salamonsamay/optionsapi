@@ -4,11 +4,11 @@ import {
   Route,
   Routes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import OptionsChain from "./OptionsChain";
-import PayPalCheckout from "./PayPalCheckout";
 import ForgotPassword from "./ForgotPassword";
 import Pricing from "./Pricing";
 import Contact from "./Contact";
@@ -17,8 +17,33 @@ import Account from "./account/Account";
 import ChangePassword from "./account/ChangePassword";
 import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
-import SuccessPayment from "./SuccessPayment";
-import CancelPayment from "./CancelPayment";
+import Logout from "./Logout";
+// Protected Route Component for fully protected routes
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+// Public Only Route (for login/register)
+const PublicOnlyRoute = ({ children, isAuthenticated }) => {
+  const location = useLocation();
+
+  if (isAuthenticated) {
+    return (
+      <Navigate
+        to={location.state?.from?.pathname || "/optionsChain"}
+        replace
+      />
+    );
+  }
+
+  return children;
+};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,30 +51,27 @@ function App() {
 
   useEffect(() => {
     const checkAuthentication = () => {
-      const token = localStorage.getItem("token");
-      const apiKey = localStorage.getItem("apiKey");
+      try {
+        const token = localStorage.getItem("token");
+        const apiKey = localStorage.getItem("apiKey");
 
-      console.log("Token in App component:", token);
-      console.log("API key in App component:", apiKey);
-
-      if (token) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
+        if (token) {
+          setIsAuthenticated(true);
+        } else {
+          handleLogout();
+        }
+      } catch (error) {
+        handleLogout();
+      } finally {
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
     };
 
     checkAuthentication();
   }, []);
 
   const handleLogout = () => {
-    // Remove token and apiKey from local storage
-    localStorage.removeItem("token");
-    localStorage.removeItem("apiKey");
-
-    // Update authentication state
+    localStorage.clear();
     setIsAuthenticated(false);
   };
 
@@ -62,39 +84,76 @@ function App() {
       <NavBar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <div className="route">
         <Routes>
+          {/* Public Routes */}
+          <Route path="/home" element={<Home />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          {/* Make OptionsChain and Calculator public but pass isAuthenticated prop */}
           <Route
             path="/optionsChain"
+            element={<OptionsChain isAuthenticated={isAuthenticated} />}
+          />
+          <Route
+            path="/calculator"
+            element={<OptionProbabilty isAuthenticated={isAuthenticated} />}
+          />
+
+          {/* Authentication Routes */}
+          <Route
+            path="/login"
             element={
-              isAuthenticated ? <OptionsChain /> : <Navigate to="/login" />
+              <PublicOnlyRoute isAuthenticated={isAuthenticated}>
+                <Login setIsAuthenticated={setIsAuthenticated} />
+              </PublicOnlyRoute>
             }
           />
           <Route
-            path="/login"
-            element={<Login setIsAuthenticated={setIsAuthenticated} />}
+            path="/logout"
+            element={<Logout setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={
+              <PublicOnlyRoute isAuthenticated={isAuthenticated}>
+                <Register />
+              </PublicOnlyRoute>
+            }
+          />
+
+          {/* Protected Routes */}
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/change-password"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <ChangePassword />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Default Route */}
           <Route
             path="/"
             element={
               isAuthenticated ? (
-                <Navigate to="/optionsChain" />
+                <Navigate to="/optionsChain" replace />
               ) : (
-                <Navigate to="/login" />
+                <Navigate to="/login" replace />
               )
             }
           />
-          <Route path="/paypal-checkout" element={<PayPalCheckout />} />
-          <Route path="/success" element={<h2>Payment Success!</h2>} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/calculator" element={<OptionProbabilty />} />
-          <Route path="/" element={<PayPalCheckout />} />
-          <Route path="/success" element={<SuccessPayment />} />
-          <Route path="/cancel" element={<CancelPayment />} />
+
+          {/* 404 Route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>

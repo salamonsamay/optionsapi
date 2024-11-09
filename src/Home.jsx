@@ -1,63 +1,93 @@
 import React from "react";
-import "./css/Home.css"; // Import the CSS file
+import { useNavigate } from "react-router-dom";
+import "./css/Home.css";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleContactClick = () => {
+    navigate("/contact");
+  };
+
   return (
     <div className="home-container">
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          {/* Replacing the orange square with the image */}
           <a href="https://ibb.co/vcY31p9">
-            <img 
-              src="https://i.ibb.co/x2H1hWZ/DALL-E-2024-10-24-05-56-17-An-illustrated-picture-of-a-modern-spacious-office-interior-The-office-ha.webp" 
-              alt="Modern Spacious Office Interior" 
-              className="hero-image" 
+            <img
+              src="https://i.ibb.co/x2H1hWZ/DALL-E-2024-10-24-05-56-17-An-illustrated-picture-of-a-modern-spacious-office-interior-The-office-ha.webp"
+              alt="Modern Spacious Office Interior"
+              className="hero-image"
             />
           </a>
-
           <div className="hero-text">
-            <h1>Comprehensive API for Options Market Data</h1>
+            <h1>Options Chain Data API For Devoloper </h1>
             <p>
               Our platform provides a comprehensive and user-friendly API
-              specifically designed for developers who need access to options market
-              data. Whether you're building trading applications, analytical tools,
-              or any other software that requires options data, our API is here to
-              facilitate your needs.
+              specifically designed for developers who need access to options
+              market data. Whether you're building trading applications,
+              analytical tools, or any other software that requires options
+              data, our API is here to facilitate your needs.
             </p>
             <div className="hero-buttons">
               <button className="btn-primary">Free Quote</button>
-              <button className="btn-secondary">Contact Us</button>
+              <button className="btn-secondary" onClick={handleContactClick}>
+                Contact Us
+              </button>
             </div>
           </div>
         </div>
       </section>
-
       {/* Services Section */}
       <section className="services-section">
         <div className="service-box">
-          <h4>Cyber Security</h4>
-          <p>Smart data layer access and insights with the best security features and modern solutions.</p>
+          <h4>Bull Spread Strategy</h4>
+          <p>
+            A vertical spread options strategy designed to profit from moderate
+            upward price moves. Involves buying and selling options of the same
+            type with different strike prices.
+          </p>
         </div>
         <div className="service-box">
-          <h4>Data Analytics</h4>
-          <p>Leverage advanced analytics to understand patterns and boost business performance.</p>
+          <h4>Bear Spread Strategy</h4>
+          <p>
+            An options strategy that profits from a decline in the underlying
+            asset's price. Created by simultaneously buying and selling options
+            with different strikes but same expiration.
+          </p>
         </div>
         <div className="service-box">
-          <h4>Web Development</h4>
-          <p>Build modern, scalable websites with user-friendly interfaces and back-end integrations.</p>
+          <h4>Box Spread Strategy</h4>
+          <p>
+            An advanced options arbitrage strategy combining a bull call spread
+            with a bear put spread, creating a "box" of four options with
+            minimal risk exposure.
+          </p>
         </div>
         <div className="service-box">
-          <h4>Apps Development</h4>
-          <p>Create cross-platform mobile apps that ensure high performance and excellent user experience.</p>
+          <h4>Iron Condor Strategy</h4>
+          <p>
+            A non-directional options strategy that profits from low volatility.
+            Combines a bull put spread with a bear call spread with same
+            expiration dates.
+          </p>
         </div>
         <div className="service-box">
-          <h4>SEO Optimization</h4>
-          <p>Improve search engine rankings, increase traffic, and build a strong online presence with SEO.</p>
+          <h4>Synthetic Position</h4>
+          <p>
+            Create positions that simulate owning or shorting the underlying
+            asset using options combinations. Offers leverage and potentially
+            lower capital requirements.
+          </p>
         </div>
         <div className="service-box">
-          <h4>Call Us for Quotes</h4>
-          <p>Discuss your project needs with our team and get tailored solutions. +012 345 6789</p>
+          <h4>Reversal Strategy</h4>
+          <p>
+            An arbitrage strategy combining a synthetic long stock position with
+            a short stock position to profit from price discrepancies in options
+            markets.
+          </p>
         </div>
       </section>
     </div>

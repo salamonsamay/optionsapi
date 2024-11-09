@@ -34,7 +34,6 @@ const Register = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
         setSuccess("Registration successful! You can now log in.");
         setTimeout(() => navigate("/login"), 2000); // Redirect after success
       } else {
