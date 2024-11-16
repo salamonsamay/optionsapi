@@ -8,6 +8,9 @@ const Home = () => {
   const handleContactClick = () => {
     navigate("/contact");
   };
+  const handleFreeQuoteClick = () => {
+    navigate("/OptionChain");
+  };
 
   return (
     <div className="home-container">
@@ -31,7 +34,10 @@ const Home = () => {
               data, our API is here to facilitate your needs.
             </p>
             <div className="hero-buttons">
-              <button className="btn-primary">Free Quote</button>
+              <button className="btn-primary" onClick={handleFreeQuoteClick}>
+                {/* Free Quote */}
+                Options Chain
+              </button>
               <button className="btn-secondary" onClick={handleContactClick}>
                 Contact Us
               </button>

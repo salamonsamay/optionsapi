@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../config/config";
 import "./../css/Account.css";
-import ChangePassword from "./ChangePassword";
+import Logout from "../Logout"; // Import Logout component
 
-const Account = () => {
+const Account = ({ setIsAuthenticated }) => {
   const [details, setDetails] = useState(null);
   const [message, setMessage] = useState("");
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,8 +43,7 @@ const Account = () => {
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
+    setIsLoggingOut(true); // Trigger logout
   };
 
   const navigateToChangePassword = () => {
@@ -55,6 +55,11 @@ const Account = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
+
+  // Render Logout component if isLoggingOut is true
+  if (isLoggingOut) {
+    return <Logout setIsAuthenticated={setIsAuthenticated} />;
+  }
 
   return (
     <div className="account-container">
@@ -110,13 +115,15 @@ const Account = () => {
             preferences, etc.
           </p>
 
-          <button onClick={navigateToChangePassword} className="btn-primary">
-            Change Password
-          </button>
+          <div className="account-actions">
+            <button onClick={navigateToChangePassword} className="btn-primary">
+              Change Password
+            </button>
 
-          <button onClick={handleLogout} className="btn-secondary">
-            Logout
-          </button>
+            <button onClick={handleLogout} className="btn-secondary">
+              Logout
+            </button>
+          </div>
         </>
       ) : (
         <p>Loading user information...</p>

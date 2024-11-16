@@ -18,11 +18,25 @@ import ChangePassword from "./account/ChangePassword";
 import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
 import Logout from "./Logout";
+
 // Protected Route Component for fully protected routes
 const ProtectedRoute = ({ children, isAuthenticated }) => {
   const location = useLocation();
 
   if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+// Admin Route Component
+const AdminRoute = ({ children, isAuthenticated }) => {
+  const location = useLocation();
+  const role = localStorage.getItem("role");
+  const isAdmin = role === "ROLE_ADMIN";
+
+  if (!isAuthenticated || !isAdmin) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
@@ -48,15 +62,18 @@ const PublicOnlyRoute = ({ children, isAuthenticated }) => {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const checkAuthentication = () => {
       try {
         const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
         const apiKey = localStorage.getItem("apiKey");
 
         if (token) {
           setIsAuthenticated(true);
+          setUserRole(role);
         } else {
           handleLogout();
         }
@@ -73,6 +90,7 @@ function App() {
   const handleLogout = () => {
     localStorage.clear();
     setIsAuthenticated(false);
+    setUserRole(null);
   };
 
   if (isLoading) {
@@ -81,7 +99,11 @@ function App() {
 
   return (
     <Router>
-      <NavBar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+      <NavBar
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
+        isAdmin={userRole === "ROLE_ADMIN"}
+      />
       <div className="route">
         <Routes>
           {/* Public Routes */}
@@ -139,6 +161,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Admin Routes */}
+          {/* <Route
+            path="/admin/*"
+            element={
+              <AdminRoute isAuthenticated={isAuthenticated}>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          /> */}
 
           {/* Default Route */}
           <Route

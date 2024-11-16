@@ -24,28 +24,29 @@ const Pricing = () => {
       buttonText: "Upgrade to Pro",
       popular: true,
     },
-    {
-      name: "Advanced Plan",
-      type: "ADVANCED",
-      price: "$29.99/week",
-      description:
-        "Access to API\nUnlimited API Calls\nEmail and Phone Support\nPremium Documentation\nDedicated Support",
-      buttonText: "Upgrade to Advanced",
-      popular: false,
-    },
+    // {
+    //   name: "Advanced Plan",
+    //   type: "ADVANCED",
+    //   price: "$29.99/week",
+    //   description:
+    //     "Access to API\nUnlimited API Calls\nEmail and Phone Support\nPremium Documentation\nDedicated Support",
+    //   buttonText: "Upgrade to Advanced",
+    //   popular: false,
+    // },
   ];
 
   const isButtonEnabled = (planType) => {
-    switch (currentPlan) {
-      case "FREE":
-        return planType === "PRO" || planType === "ADVANCED";
-      case "PRO":
-        return planType === "FREE" || planType === "ADVANCED";
-      case "ADVANCED":
-        return planType === "FREE" || planType === "PRO";
-      default:
-        return true;
-    }
+    return false;
+    // switch (currentPlan) {
+    //   case "FREE":
+    //     return planType === "PRO" || planType === "ADVANCED";
+    //   case "PRO":
+    //     return planType === "FREE" || planType === "ADVANCED";
+    //   case "ADVANCED":
+    //     return planType === "FREE" || planType === "PRO";
+    //   default:
+    //     return true;
+    // }
   };
 
   const getButtonText = (plan) => {

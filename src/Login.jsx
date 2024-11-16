@@ -80,18 +80,18 @@ const Login = ({ setIsAuthenticated }) => {
                 Forgot password?
               </a>
             </div>
-            <div className="remember-me">
+            {/* <div className="remember-me">
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember me</label>
-            </div>
+            </div> */}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <button type="submit" className="btn-primary">
               Sign in
             </button>
           </form>
-          <div className="social-login">
+          {/* <div className="social-login">
             <button className="btn-google">Or sign in with Google</button>
-          </div>
+          </div> */}
           <div className="sign-up">
             <p>
               Don't have an account? <a href="/register">Sign up now</a>

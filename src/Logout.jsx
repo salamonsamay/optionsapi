@@ -34,6 +34,7 @@ const Logout = ({ setIsAuthenticated }) => {
             replace: true,
             state: { message: "Successfully logged out." },
           });
+          window.location.reload(); // Force page refresh
         }, 1000);
       } catch (error) {
         console.error("Logout error:", error);
@@ -43,6 +44,7 @@ const Logout = ({ setIsAuthenticated }) => {
         localStorage.clear();
         setTimeout(() => {
           navigate("/login");
+          window.location.reload(); // Force page refresh
         }, 2000);
       } finally {
         setIsLoading(false);
