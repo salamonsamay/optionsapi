@@ -6,7 +6,7 @@ import fs from 'fs';
 //   plugins: [react()],
 //   server: {
 //     https: {
-//       key: fs.readFileSync('C:/Users/salam/porkbunKey/private.key.pem'), // Updated to .pem
+//       key: fs.readFileSync('C:/Users/salam/p/private.key.pem'), // Updated to .pem
 //       cert: fs.readFileSync('C:/Users/salam/porkbunKey/domain.cert.pem'), // Updated to .pem
 //     },
 //     host: '0.0.0.0', // Allow access from the network (optional)

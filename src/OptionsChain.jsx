@@ -520,7 +520,7 @@ const OptionsChain = () => {
           <option value="50">50</option>
           <option value="100">100</option>
           <option value="200">200</option>
-          <option value="250">Max (it's may slower )</option>
+          <option value="MAX">Max (it's may slower )</option>
         </select>
         <small>Specify the maximum number of results to return.</small>
       </div>
