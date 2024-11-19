@@ -11,7 +11,7 @@ const Pricing = () => {
       type: "FREE",
       price: "$0.0/month",
       description:
-        "Access to API\n10 API Calls per Minute\nReal Time Data\nBasic Documentation\nPriority Support",
+        "Access to API\n3 API Calls Per 5 Minute\nReal Time Data\nBasic Documentation\nPriority Support",
       buttonText: "Current Plan",
       popular: false,
     },
@@ -24,29 +24,26 @@ const Pricing = () => {
       buttonText: "Upgrade to Pro",
       popular: true,
     },
-    // {
-    //   name: "Advanced Plan",
-    //   type: "ADVANCED",
-    //   price: "$29.99/week",
-    //   description:
-    //     "Access to API\nUnlimited API Calls\nEmail and Phone Support\nPremium Documentation\nDedicated Support",
-    //   buttonText: "Upgrade to Advanced",
-    //   popular: false,
-    // },
   ];
 
   const isButtonEnabled = (planType) => {
+    // If subType is empty or null, all buttons should be disabled
+    if (!currentPlan) {
+      return false;
+    }
     return false;
-    // switch (currentPlan) {
-    //   case "FREE":
-    //     return planType === "PRO" || planType === "ADVANCED";
-    //   case "PRO":
-    //     return planType === "FREE" || planType === "ADVANCED";
-    //   case "ADVANCED":
-    //     return planType === "FREE" || planType === "PRO";
-    //   default:
-    //     return true;
-    // }
+
+    // Otherwise, use the existing logic
+    switch (currentPlan) {
+      case "FREE":
+        return planType === "PRO" || planType === "ADVANCED";
+      case "PRO":
+        return planType === "FREE" || planType === "ADVANCED";
+      case "ADVANCED":
+        return planType === "FREE" || planType === "PRO";
+      default:
+        return true;
+    }
   };
 
   const getButtonText = (plan) => {

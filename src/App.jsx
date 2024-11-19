@@ -19,45 +19,38 @@ import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
 import Logout from "./Logout";
 
-// Protected Route Component for fully protected routes
-const ProtectedRoute = ({ children, isAuthenticated }) => {
+// Protected Route Component with memo for better performance
+const ProtectedRoute = React.memo(({ children, isAuthenticated }) => {
   const location = useLocation();
+  return !isAuthenticated ? (
+    <Navigate to="/login" state={{ from: location }} replace />
+  ) : (
+    children
+  );
+});
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
-};
-
-// Admin Route Component
-const AdminRoute = ({ children, isAuthenticated }) => {
+// Admin Route Component with memo
+const AdminRoute = React.memo(({ children, isAuthenticated }) => {
   const location = useLocation();
   const role = localStorage.getItem("role");
   const isAdmin = role === "ROLE_ADMIN";
 
-  if (!isAuthenticated || !isAdmin) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  return !isAuthenticated || !isAdmin ? (
+    <Navigate to="/login" state={{ from: location }} replace />
+  ) : (
+    children
+  );
+});
 
-  return children;
-};
-
-// Public Only Route (for login/register)
-const PublicOnlyRoute = ({ children, isAuthenticated }) => {
+// Public Only Route with memo
+const PublicOnlyRoute = React.memo(({ children, isAuthenticated }) => {
   const location = useLocation();
-
-  if (isAuthenticated) {
-    return (
-      <Navigate
-        to={location.state?.from?.pathname || "/optionsChain"}
-        replace
-      />
-    );
-  }
-
-  return children;
-};
+  return isAuthenticated ? (
+    <Navigate to={location.state?.from?.pathname || "/optionsChain"} replace />
+  ) : (
+    children
+  );
+});
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -69,9 +62,9 @@ function App() {
       try {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
-        const apiKey = localStorage.getItem("apiKey");
-
-        if (token) {
+        
+        // Add token validation here
+        if (token && token.split('.').length === 3) { // Basic JWT structure check
           setIsAuthenticated(true);
           setUserRole(role);
         } else {
@@ -94,7 +87,7 @@ function App() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Consider adding a proper loading component
   }
 
   return (
@@ -111,8 +104,8 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-
-          {/* Make OptionsChain and Calculator public but pass isAuthenticated prop */}
+          
+          {/* Public Routes with Auth State */}
           <Route
             path="/optionsChain"
             element={<OptionsChain isAuthenticated={isAuthenticated} />}
@@ -122,7 +115,7 @@ function App() {
             element={<OptionProbabilty isAuthenticated={isAuthenticated} />}
           />
 
-          {/* Authentication Routes */}
+          {/* Auth Routes */}
           <Route
             path="/login"
             element={
@@ -131,10 +124,7 @@ function App() {
               </PublicOnlyRoute>
             }
           />
-          <Route
-            path="/logout"
-            element={<Logout setIsAuthenticated={setIsAuthenticated} />}
-          />
+          <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
           <Route
             path="/register"
             element={
@@ -161,16 +151,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Admin Routes */}
-          {/* <Route
-            path="/admin/*"
-            element={
-              <AdminRoute isAuthenticated={isAuthenticated}>
-                <AdminLayout />
-              </AdminRoute>
-            }
-          /> */}
 
           {/* Default Route */}
           <Route
