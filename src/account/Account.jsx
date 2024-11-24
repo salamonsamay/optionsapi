@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../config/config";
 import "./../css/Account.css";
-import Logout from "../Logout"; // Import Logout component
+import Logout from "../Logout";
 
 const Account = ({ setIsAuthenticated }) => {
   const [details, setDetails] = useState(null);
@@ -26,6 +26,11 @@ const Account = ({ setIsAuthenticated }) => {
           if (response.ok) {
             const data = await response.json();
             setDetails(data);
+          } else if (response.status === 403) {
+            // If unauthorized, trigger logout
+            console.log("Unauthorized access, logging out...");
+            setIsLoggingOut(true);
+            setMessage("Session expired. Please log in again.");
           } else {
             console.log("Error fetching user data:", response.statusText);
             setMessage("Failed to load user data.");
@@ -40,10 +45,10 @@ const Account = ({ setIsAuthenticated }) => {
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, setIsAuthenticated]);
 
   const handleLogout = () => {
-    setIsLoggingOut(true); // Trigger logout
+    setIsLoggingOut(true);
   };
 
   const navigateToChangePassword = () => {

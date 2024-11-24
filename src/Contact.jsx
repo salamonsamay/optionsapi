@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Contact.css";
 import API_URL from "./config/config";
+import Logout from "./Logout"; // Add this import
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Contact = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [status, setStatus] = useState(""); // For showing send status
+  const [isLoggingOut, setIsLoggingOut] = useState(false); // Add this line
 
   useEffect(() => {
     checkAuthStatus();
@@ -40,6 +42,7 @@ const Contact = () => {
 
       const response = await fetch(`${API_URL}/contact/send`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -52,17 +55,20 @@ const Contact = () => {
         }),
       });
 
+      if (response.status === 403) {
+        console.log("Unauthorized access, logging out...");
+        setIsLoggingOut(true);
+        setStatus("error");
+        return;
+      }
+
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
 
-      // Clear form after successful send
-      setFormData({
-        subject: "",
-        message: "",
-      });
+      setFormData({ subject: "", message: "" });
       setStatus("success");
-      setTimeout(() => setStatus(""), 3000); // Clear status after 3 seconds
+      setTimeout(() => setStatus(""), 3000);
     } catch (error) {
       console.error("Error sending message:", error);
       setStatus("error");
@@ -70,6 +76,9 @@ const Contact = () => {
     }
   };
 
+  if (isLoggingOut) {
+    return <Logout setIsAuthenticated={setIsAuthenticated} />;
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({

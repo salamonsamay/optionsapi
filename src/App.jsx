@@ -62,9 +62,10 @@ function App() {
       try {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
-        
+
         // Add token validation here
-        if (token && token.split('.').length === 3) { // Basic JWT structure check
+        if (token && token.split(".").length === 3) {
+          // Basic JWT structure check
           setIsAuthenticated(true);
           setUserRole(role);
         } else {
@@ -102,9 +103,8 @@ function App() {
           {/* Public Routes */}
           <Route path="/home" element={<Home />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          
+
           {/* Public Routes with Auth State */}
           <Route
             path="/optionsChain"
@@ -117,6 +117,14 @@ function App() {
 
           {/* Auth Routes */}
           <Route
+            path="/contact"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Contact setIsAuthenticated={setIsAuthenticated} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/login"
             element={
               <PublicOnlyRoute isAuthenticated={isAuthenticated}>
@@ -124,7 +132,10 @@ function App() {
               </PublicOnlyRoute>
             }
           />
-          <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
+          <Route
+            path="/logout"
+            element={<Logout setIsAuthenticated={setIsAuthenticated} />}
+          />
           <Route
             path="/register"
             element={

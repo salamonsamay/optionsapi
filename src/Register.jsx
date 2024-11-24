@@ -7,6 +7,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -15,7 +16,7 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  // ולידציה של אימייל
+  // All validation functions remain exactly the same
   const validateEmail = (email) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (!email) {
@@ -27,7 +28,6 @@ const Register = () => {
     return "";
   };
 
-  // ולידציה של סיסמה
   const validatePassword = (password) => {
     if (!password) {
       return "Password is required";
@@ -50,7 +50,6 @@ const Register = () => {
     return "";
   };
 
-  // ולידציה של אימות סיסמה
   const validateConfirmPassword = (confirmPassword) => {
     if (!confirmPassword) {
       return "Please confirm your password";
@@ -61,7 +60,7 @@ const Register = () => {
     return "";
   };
 
-  // טיפול בשינויים בשדות
+  // All handlers remain the same
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
@@ -96,7 +95,6 @@ const Register = () => {
     e.preventDefault();
     setSuccess("");
 
-    // ולידציה סופית לפני שליחה
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
     const confirmPasswordError = validateConfirmPassword(confirmPassword);
@@ -109,6 +107,8 @@ const Register = () => {
       });
       return;
     }
+
+    setIsLoading(true); // Start loading
 
     try {
       const response = await fetch(`${API_URL}/register`, {
@@ -123,7 +123,9 @@ const Register = () => {
       });
 
       if (response.ok) {
-        setSuccess("Registration successful! You can now log in.");
+        setSuccess(
+          "Registration successful! You can now log in after verify the email."
+        );
         setTimeout(() => navigate("/login"), 2000);
       } else {
         const errorData = await response.text();
@@ -137,10 +139,11 @@ const Register = () => {
         ...prev,
         general: `An error occurred: ${error.message}`,
       }));
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
-  // בדיקה אם יש שגיאות כלשהן
   const hasErrors = () => {
     return Object.values(errors).some((error) => error !== "");
   };
@@ -159,6 +162,7 @@ const Register = () => {
               value={email}
               onChange={handleEmailChange}
               className={errors.email ? "error" : ""}
+              disabled={isLoading}
               required
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
@@ -171,6 +175,7 @@ const Register = () => {
               value={password}
               onChange={handlePasswordChange}
               className={errors.password ? "error" : ""}
+              disabled={isLoading}
               required
             />
             {errors.password && (
@@ -185,6 +190,7 @@ const Register = () => {
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
               className={errors.confirmPassword ? "error" : ""}
+              disabled={isLoading}
               required
             />
             {errors.confirmPassword && (
@@ -195,15 +201,18 @@ const Register = () => {
           {success && <p className="success-message">{success}</p>}
           <button
             type="submit"
-            className="btn-primary"
-            disabled={hasErrors() || !email || !password || !confirmPassword}
+            className={`btn-primary ${isLoading ? "loading" : ""}`}
+            disabled={
+              hasErrors() ||
+              !email ||
+              !password ||
+              !confirmPassword ||
+              isLoading
+            }
           >
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </button>
         </form>
-        {/* <div className="password-requirements">
-          <p>Password must contain:</p>
-        </div> */}
         <a href="/login" className="return-link">
           Already have an account? Log in here
         </a>

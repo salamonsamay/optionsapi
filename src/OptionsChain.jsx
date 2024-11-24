@@ -321,36 +321,6 @@ const OptionsChainDocumentation = () => {
 const OptionsChain = () => {
   const navigate = useNavigate();
 
-  // Handle button click to go to the PayPal checkout page
-  const handleProceedToPayPal = async () => {
-    try {
-      // Get the JWT token from localStorage
-      const token = localStorage.getItem("token");
-
-      // Make API call to your backend
-      const response = await fetch(`${API_URL}/api/paypal/payment/create`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create PayPal payment");
-      }
-
-      // Get the PayPal URL from the response
-      const paypalUrl = await response.text();
-
-      // Open PayPal in new window
-      window.open(paypalUrl, "_blank");
-    } catch (error) {
-      console.error("Payment creation error:", error);
-      alert("Failed to initiate PayPal payment. Please try again.");
-    }
-  };
-
   const token = localStorage.getItem("token");
 
   const [symbol, setSymbol] = useState("");
@@ -567,11 +537,7 @@ const OptionsChain = () => {
         Run Query
       </button>
 
-      {/* <button onClick={handleProceedToPayPal}>Proceed to PayPal</button> */}
-
       {/* Render the Modal */}
-
-      {/* <OptionsChainDocumentation /> */}
     </div>
   );
 };
