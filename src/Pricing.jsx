@@ -36,33 +36,35 @@ const Pricing = () => {
   ];
 
   const agreementText = `
-    Terms and Conditions
+  Terms and Conditions
 
-    1. Service Agreement
-    By subscribing to our service, you agree to the following terms and conditions:
-    - The subscription will automatically renew unless cancelled
-    - Payment will be charged at the beginning of each billing period
-    - Prices are subject to change with notice
+1. Service Agreement
+By subscribing to our service, you agree to the following terms and conditions:
+- The subscription will automatically terminate at the end of the billing period
+- Payment will be charged at the beginning of each billing period
+- Prices are subject to change with notice
+- To continue service, you must manually renew your subscription before the end of each period
 
-    2. Usage Terms
-    - API usage is limited based on your subscription plan
-    - Abuse or excessive use may result in account suspension
-    - You may not share or resell API access
+2. Usage Terms
+- API usage is limited based on your subscription plan
+- Abuse or excessive use may result in account suspension
+- You may not share or resell API access
 
-    3. Cancellation Policy
-    - You may cancel your subscription at any time
-    - Refunds are provided according to our refund policy
-    - Cancellation will take effect at the end of the current billing period
+3. Cancellation Policy
+- You may cancel your subscription at any time
+- Refunds are provided according to our refund policy
+- Service access continues until the end of your paid billing period
+- No automatic renewals will occur
 
-    4. Data Usage
-    - We collect and process data in accordance with our privacy policy
-    - You are responsible for securing your API credentials
-    - We may collect usage statistics to improve our service
+4. Data Usage
+- We collect and process data in accordance with our privacy policy
+- You are responsible for securing your API credentials
+- We may collect usage statistics to improve our service
 
-    5. Service Level Agreement
-    - We strive for 99.9% uptime
-    - Scheduled maintenance will be announced in advance
-    - Support response times vary by subscription level
+5. Service Level Agreement
+- We strive for 99.9% uptime
+- Scheduled maintenance will be announced in advance
+- Support response times vary by subscription level
   `;
 
   const isButtonEnabled = (planType) => {

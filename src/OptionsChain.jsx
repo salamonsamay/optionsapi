@@ -1,9 +1,414 @@
 import React, { useState, useEffect } from "react";
 import "./css/OptionsChain.css";
-import { useNavigate } from "react-router-dom"; // Ensure this line is present
 import API_URL from "./config/config";
 
-// Modal component remains unchanged
+const ALLOWED_SYMBOLS = [
+  "A",
+  "AAPL",
+  "ABBV",
+  "ABMD",
+  "ABT",
+  "ABNB",
+  "ACWI",
+  "ACWX",
+  "ACN",
+  "ADBE",
+  "ADM",
+  "ADP",
+  "AEE",
+  "AEP",
+  "AES",
+  "AFL",
+  "AGG",
+  "AIG",
+  "AIZ",
+  "ALB",
+  "ALK",
+  "AMAT",
+  "AMD",
+  "AMGN",
+  "AME",
+  "AMZN",
+  "ANSS",
+  "APD",
+  "APH",
+  "ATO",
+  "ATVI",
+  "AVB",
+  "AVGO",
+  "AXP",
+  "AZN",
+  "AZO",
+  "BA",
+  "BABA",
+  "BAC",
+  "BDX",
+  "BF.B",
+  "BILI",
+  "BIIB",
+  "BIO",
+  "BKR",
+  "BLK",
+  "BND",
+  "BNDX",
+  "BP",
+  "BRK.B",
+  "BSV",
+  "BSX",
+  "BWA",
+  "BXP",
+  "C",
+  "CAG",
+  "CAT",
+  "CB",
+  "CCL",
+  "CDW",
+  "CE",
+  "CERN",
+  "CFG",
+  "CHD",
+  "CHRW",
+  "CI",
+  "CINF",
+  "CL",
+  "CLX",
+  "CME",
+  "CMI",
+  "CMS",
+  "CNP",
+  "COIN",
+  "COF",
+  "COO",
+  "COP",
+  "COST",
+  "CPRT",
+  "CPT",
+  "CRL",
+  "CRM",
+  "CRWD",
+  "CSCO",
+  "CSX",
+  "CTAS",
+  "CTLT",
+  "CTSH",
+  "CTVA",
+  "CVS",
+  "CVX",
+  "CZR",
+  "D",
+  "DAL",
+  "DASH",
+  "DBX",
+  "DD",
+  "DDOG",
+  "DE",
+  "DFS",
+  "DG",
+  "DGRO",
+  "DGX",
+  "DHI",
+  "DHR",
+  "DIA",
+  "DIDI",
+  "DIS",
+  "DLR",
+  "DOW",
+  "DPZ",
+  "DRE",
+  "DRI",
+  "DTE",
+  "DUK",
+  "DVA",
+  "DVN",
+  "EA",
+  "ECL",
+  "ED",
+  "EEM",
+  "EFA",
+  "EFX",
+  "EIX",
+  "EL",
+  "EMN",
+  "EMR",
+  "EOG",
+  "ESGD",
+  "ESGU",
+  "ESS",
+  "ETN",
+  "ETR",
+  "EVRG",
+  "EW",
+  "EXC",
+  "EXPD",
+  "EXR",
+  "F",
+  "FAST",
+  "FCX",
+  "FDX",
+  "FE",
+  "FIS",
+  "FISV",
+  "FLT",
+  "FMC",
+  "FOX",
+  "FOXA",
+  "FRT",
+  "FTI",
+  "FTNT",
+  "FVD",
+  "GD",
+  "GE",
+  "GILD",
+  "GL",
+  "GLD",
+  "GLW",
+  "GM",
+  "GOOGL",
+  "GOVT",
+  "GPC",
+  "GPN",
+  "GS",
+  "GSLC",
+  "GWW",
+  "HAE",
+  "HAL",
+  "HBAN",
+  "HCA",
+  "HD",
+  "HES",
+  "HIG",
+  "HII",
+  "HON",
+  "HOOD",
+  "HPE",
+  "HRB",
+  "HRL",
+  "HST",
+  "HSY",
+  "HUM",
+  "HWM",
+  "IAU",
+  "IBM",
+  "ICE",
+  "IDXX",
+  "IEFA",
+  "IEMG",
+  "IEX",
+  "IFF",
+  "IGIB",
+  "ILMN",
+  "INTC",
+  "INTU",
+  "IPG",
+  "IQV",
+  "IR",
+  "IRM",
+  "ITA",
+  "ITOT",
+  "ITW",
+  "IUSB",
+  "IVE",
+  "IVV",
+  "IVW",
+  "IWB",
+  "IWD",
+  "IWF",
+  "IWM",
+  "JD",
+  "JNJ",
+  "JPST",
+  "JPM",
+  "K",
+  "KEY",
+  "KHC",
+  "KMB",
+  "KMI",
+  "KO",
+  "KR",
+  "LCID",
+  "LHX",
+  "LI",
+  "LMT",
+  "LNC",
+  "LOW",
+  "LQD",
+  "MA",
+  "MAR",
+  "MCD",
+  "MCK",
+  "MCO",
+  "MCHP",
+  "MDLZ",
+  "MDY",
+  "MET",
+  "META",
+  "MINT",
+  "MMC",
+  "MMM",
+  "MNST",
+  "MO",
+  "MRK",
+  "MRO",
+  "MS",
+  "MSFT",
+  "MSI",
+  "MTB",
+  "MTUM",
+  "MU",
+  "MUB",
+  "NET",
+  "NFLX",
+  "NIO",
+  "NKE",
+  "NOC",
+  "NSC",
+  "NVDA",
+  "NUE",
+  "ORCL",
+  "ORLY",
+  "OXY",
+  "PCAR",
+  "PDD",
+  "PEAK",
+  "PEP",
+  "PFE",
+  "PG",
+  "PH",
+  "PKG",
+  "PLTR",
+  "PM",
+  "PNC",
+  "PPG",
+  "PSX",
+  "PWR",
+  "PYPL",
+  "QUAL",
+  "QCOM",
+  "QQQ",
+  "RBLX",
+  "RMD",
+  "RIVN",
+  "ROK",
+  "ROKU",
+  "ROST",
+  "RSG",
+  "RSP",
+  "RTX",
+  "SCHA",
+  "SCHB",
+  "SCHD",
+  "SCHF",
+  "SCHP",
+  "SCHW",
+  "SCHX",
+  "SDY",
+  "SHEL",
+  "SHV",
+  "SHW",
+  "SHY",
+  "SLB",
+  "SLYV",
+  "SNOW",
+  "SOFI",
+  "SPAB",
+  "SPDW",
+  "SPEM",
+  "SPGI",
+  "SPIB",
+  "SPIP",
+  "SPLG",
+  "SPOT",
+  "SPSB",
+  "SPTI",
+  "SPTM",
+  "SPG",
+  "SPY",
+  "SPYG",
+  "SPYV",
+  "SQ",
+  "SRE",
+  "STZ",
+  "SWK",
+  "SYK",
+  "SYY",
+  "T",
+  "TAP",
+  "TDG",
+  "TGT",
+  "TJX",
+  "TLT",
+  "TMUS",
+  "TRMB",
+  "TRV",
+  "TSM",
+  "TSLA",
+  "TTE",
+  "TWLO",
+  "TWTR",
+  "TXN",
+  "UBER",
+  "UL",
+  "UNH",
+  "UPS",
+  "USIG",
+  "USB",
+  "V",
+  "VB",
+  "VBK",
+  "VBR",
+  "VCIT",
+  "VCLT",
+  "VCR",
+  "VDC",
+  "VEA",
+  "VFH",
+  "VGIT",
+  "VGLT",
+  "VGSH",
+  "VHT",
+  "VIG",
+  "VLO",
+  "VLUE",
+  "VMBS",
+  "VNQ",
+  "VOE",
+  "VOO",
+  "VONG",
+  "VONV",
+  "VOT",
+  "VTEB",
+  "VTIP",
+  "VTI",
+  "VTR",
+  "VTV",
+  "VUG",
+  "VV",
+  "VWO",
+  "VXUS",
+  "VYM",
+  "VZ",
+  "WAB",
+  "WAT",
+  "WBA",
+  "WEC",
+  "WFC",
+  "WM",
+  "WMT",
+  "WRB",
+  "WY",
+  "XLC",
+  "XLE",
+  "XLF",
+  "XLI",
+  "XLK",
+  "XLP",
+  "XLV",
+  "XOM",
+  "XPEV",
+  "YUM",
+  "ZM",
+];
+
 const Modal = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
@@ -18,311 +423,41 @@ const Modal = ({ isOpen, onClose, data }) => {
   );
 };
 
-const OptionsChainDocumentation = () => {
-  return (
-    <div>
-      <div className="documentation">
-        <h4>Response Attributes</h4>
-        <table>
-          <thead>
-            <tr>
-              <th>Attribute</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              {
-                attribute: "next_url",
-                type: "string",
-                description:
-                  "If present, this value can be used to fetch the next page of data.",
-              },
-              {
-                attribute: "request_id*",
-                type: "string",
-                description: "Unique identifier for the request.",
-              },
-              {
-                attribute: "results",
-                type: "array",
-                description:
-                  "The array of option contracts returned in the response.",
-              },
-              {
-                attribute: "break_even_price*",
-                type: "number",
-                description:
-                  "The price of the underlying asset for the contract to break even.",
-              },
-              {
-                attribute: "day",
-                type: "object",
-                description: "The most recent daily bar for this contract.",
-              },
-              {
-                attribute: "change*",
-                type: "number",
-                description:
-                  "The value of the price change for the contract from the previous trading day.",
-              },
-              {
-                attribute: "change_percent*",
-                type: "number",
-                description:
-                  "The percent of the price change for the contract from the previous trading day.",
-              },
-              {
-                attribute: "close*",
-                type: "number",
-                description: "The closing price for the contract of the day.",
-              },
-              {
-                attribute: "high*",
-                type: "number",
-                description: "The highest price for the contract of the day.",
-              },
-              {
-                attribute: "last_updated*",
-                type: "integer",
-                description:
-                  "The nanosecond timestamp of when this information was updated.",
-              },
-              {
-                attribute: "low*",
-                type: "number",
-                description: "The lowest price for the contract of the day.",
-              },
-              {
-                attribute: "open*",
-                type: "number",
-                description: "The open price for the contract of the day.",
-              },
-              {
-                attribute: "previous_close*",
-                type: "number",
-                description:
-                  "The closing price for the contract of the previous trading day.",
-              },
-              {
-                attribute: "volume*",
-                type: "number",
-                description: "The trading volume for the contract of the day.",
-              },
-              {
-                attribute: "vwap*",
-                type: "number",
-                description:
-                  "The trading volume weighted average price for the contract of the day.",
-              },
-              {
-                attribute: "details",
-                type: "object",
-                description: "The details for this contract.",
-              },
-              {
-                attribute: "contract_type*",
-                type: "enum [put, call, other]",
-                description:
-                  'The type of contract. Can be "put", "call", or in some rare cases, "other".',
-              },
-              {
-                attribute: "exercise_style*",
-                type: "enum [american, european, bermudan]",
-                description: "The exercise style of this contract.",
-              },
-              {
-                attribute: "expiration_date*",
-                type: "string",
-                description:
-                  "The contract's expiration date in YYYY-MM-DD format.",
-              },
-              {
-                attribute: "shares_per_contract*",
-                type: "number",
-                description:
-                  "The number of shares per contract for this contract.",
-              },
-              {
-                attribute: "strike_price*",
-                type: "number",
-                description: "The strike price of the option contract.",
-              },
-              {
-                attribute: "ticker*",
-                type: "string",
-                description: "The ticker symbol for the asset.",
-              },
-              {
-                attribute: "fmv",
-                type: "number",
-                description:
-                  "Fair market value is only available on Business plans.",
-              },
-              {
-                attribute: "greeks",
-                type: "object",
-                description: "The greeks for this contract.",
-              },
-              {
-                attribute: "delta*",
-                type: "number",
-                description:
-                  "The change in the option's price per $0.01 increment in the price of the underlying asset.",
-              },
-              {
-                attribute: "gamma*",
-                type: "number",
-                description:
-                  "The change in delta per $0.01 change in the price of the underlying asset.",
-              },
-              {
-                attribute: "theta*",
-                type: "number",
-                description: "The change in the option's price per day.",
-              },
-              {
-                attribute: "vega*",
-                type: "number",
-                description:
-                  "The change in the option's price per 1% increment in volatility.",
-              },
-              {
-                attribute: "implied_volatility",
-                type: "number",
-                description:
-                  "The market's forecast for the volatility of the underlying asset.",
-              },
-              {
-                attribute: "last_quote",
-                type: "object",
-                description: "The most recent quote for this contract.",
-              },
-              {
-                attribute: "ask*",
-                type: "number",
-                description: "The ask price.",
-              },
-              {
-                attribute: "ask_exchange",
-                type: "number",
-                description: "The ask side exchange ID.",
-              },
-              {
-                attribute: "ask_size*",
-                type: "number",
-                description: "The ask size.",
-              },
-              {
-                attribute: "bid*",
-                type: "number",
-                description: "The bid price.",
-              },
-              {
-                attribute: "bid_exchange",
-                type: "number",
-                description: "The bid side exchange ID.",
-              },
-              {
-                attribute: "bid_size*",
-                type: "number",
-                description: "The bid size.",
-              },
-              {
-                attribute: "midpoint*",
-                type: "number",
-                description: "The average of the bid and ask price.",
-              },
-              {
-                attribute: "timeframe*",
-                type: "enum [DELAYED, REAL-TIME]",
-                description: "The time relevance of the data.",
-              },
-              {
-                attribute: "last_trade",
-                type: "object",
-                description: "The most recent trade for this contract.",
-              },
-              {
-                attribute: "conditions",
-                type: "array [integer]",
-                description: "A list of condition codes.",
-              },
-              {
-                attribute: "exchange*",
-                type: "integer",
-                description: "The exchange ID.",
-              },
-              {
-                attribute: "price*",
-                type: "number",
-                description: "The price of the trade.",
-              },
-              {
-                attribute: "sip_timestamp*",
-                type: "integer",
-                description:
-                  "The timestamp of when the SIP received this trade from the exchange.",
-              },
-              {
-                attribute: "size*",
-                type: "integer",
-                description: "The size of a trade.",
-              },
-              {
-                attribute: "open_interest*",
-                type: "number",
-                description:
-                  "The quantity of this contract held at the end of the last trading day.",
-              },
-              {
-                attribute: "underlying_asset",
-                type: "object",
-                description: "The underlying asset for the options contract.",
-              },
-              {
-                attribute: "underlying_asset_symbol*",
-                type: "string",
-                description: "The ticker symbol of the underlying asset.",
-              },
-              {
-                attribute: "underlying_security_id*",
-                type: "integer",
-                description:
-                  "The unique identifier for the underlying security.",
-              },
-              {
-                attribute: "quote_time*",
-                type: "integer",
-                description: "The time when the last quote was received.",
-              },
-              {
-                attribute: "trade_time*",
-                type: "integer",
-                description: "The time when the last trade was executed.",
-              },
-            ].map(({ attribute, type, description }) => (
-              <tr key={attribute}>
-                <td>{attribute}</td>
-                <td>{type}</td>
-                <td>{description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+const SymbolsModal = ({ isOpen, onClose, onSymbolSelect }) => {
+  if (!isOpen) return null;
 
-        <p>* - indicates required attributes.</p>
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal-content symbols-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header">
+          <h3>Available Symbols</h3>
+          <button className="close-button" onClick={onClose}>
+            ×
+          </button>
+        </div>
+        <div className="symbols-container">
+          {ALLOWED_SYMBOLS.map((symbol) => (
+            <span
+              key={symbol}
+              className="symbol-tag"
+              onClick={() => {
+                onSymbolSelect(symbol);
+                onClose();
+              }}
+            >
+              {symbol}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 const OptionsChain = () => {
-  const navigate = useNavigate();
-
-  const token = localStorage.getItem("token");
-
   const [symbol, setSymbol] = useState("");
   const [strikePrice, setStrikePrice] = useState("");
   const [startExpirationDate, setStartExpirationDate] = useState("");
@@ -331,12 +466,13 @@ const OptionsChain = () => {
   const [order, setOrder] = useState("");
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState("");
-  const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || ""); // Set default API key from localStorage
+  const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "");
   const [queryResult, setQueryResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSymbolsModal, setShowSymbolsModal] = useState(false);
   const [queryUrl, setQueryUrl] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // Effect to build the query URL whenever relevant state variables change
   useEffect(() => {
     const url = buildQueryUrl();
     setQueryUrl(url);
@@ -352,10 +488,27 @@ const OptionsChain = () => {
     apiKey,
   ]);
 
-  const handleRunQuery = async () => {
-    try {
-      console.log("Query URL: ", queryUrl);
+  const validateForm = () => {
+    const newErrors = {};
 
+    if (!symbol.trim()) {
+      newErrors.symbol = "Symbol is required";
+    }
+
+    if (!apiKey.trim()) {
+      newErrors.apiKey = "API Key is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleRunQuery = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
       const response = await fetch(queryUrl, {
         method: "GET",
         headers: {
@@ -366,18 +519,16 @@ const OptionsChain = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      console.log("token in optionsChain " + token);
 
       const data = await response.json();
       setQueryResult(data);
-      setIsModalOpen(true); // Open the modal
+      setIsModalOpen(true);
     } catch (error) {
       console.error("Error running query:", error);
-      setQueryResult(null); // Clear the result on error
+      setQueryResult(null);
     }
   };
 
-  // Function to build query URL with non-empty fields only
   const buildQueryUrl = () => {
     let queryParams = [];
 
@@ -396,13 +547,12 @@ const OptionsChain = () => {
     return `${API_URL}/optionsChain?${queryParams.join("&")}`;
   };
 
-  // Function to copy the URL to the clipboard
   const handleCopyUrl = () => {
     if (queryUrl) {
       navigator.clipboard
         .writeText(queryUrl)
         .then(() => {
-          alert("URL copied to clipboard!"); // Feedback to the user
+          alert("URL copied to clipboard!");
         })
         .catch((err) => {
           console.error("Failed to copy: ", err);
@@ -410,20 +560,38 @@ const OptionsChain = () => {
     }
   };
 
+  const handleSymbolSelect = (selectedSymbol) => {
+    setSymbol(selectedSymbol);
+    setErrors({ ...errors, symbol: undefined });
+  };
+
+  const handleApiKeyChange = (e) => {
+    const value = e.target.value;
+    setApiKey(value);
+    setErrors({ ...errors, apiKey: undefined });
+    localStorage.setItem("apiKey", value);
+  };
+
   return (
     <div className="options-chain-container">
       <h2>Options Chain</h2>
       <p>Get the snapshot of all options contracts for an underlying ticker.</p>
 
-      {/* Form Fields */}
-      <div className="form-group">
-        <label>Symbol*</label>
+      <div className={`form-group ${errors.symbol ? "error" : ""}`}>
+        <label>
+          Symbol* <span className="required">Required</span>
+        </label>
         <input
           type="text"
           value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
+          onChange={(e) => {
+            setSymbol(e.target.value);
+            setErrors({ ...errors, symbol: undefined });
+          }}
           placeholder="Enter symbol"
+          className={errors.symbol ? "error-input" : ""}
         />
+        {errors.symbol && <div className="error-message">{errors.symbol}</div>}
         <small>Enter the stock ticker symbol (e.g., AAPL for Apple).</small>
       </div>
 
@@ -490,7 +658,7 @@ const OptionsChain = () => {
           <option value="50">50</option>
           <option value="100">100</option>
           <option value="200">200</option>
-          <option value="MAX">Max (it's may slower )</option>
+          <option value="MAX">Max (it may be slower)</option>
         </select>
         <small>Specify the maximum number of results to return.</small>
       </div>
@@ -505,18 +673,21 @@ const OptionsChain = () => {
         <small>Select the field by which to sort the results.</small>
       </div>
 
-      <div className="form-group">
-        <label>API Key*</label>
+      <div className={`form-group ${errors.apiKey ? "error" : ""}`}>
+        <label>
+          API Key* <span className="required">Required</span>
+        </label>
         <input
           type="text"
           value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
+          onChange={handleApiKeyChange}
           placeholder="Enter API key"
+          className={errors.apiKey ? "error-input" : ""}
         />
+        {errors.apiKey && <div className="error-message">{errors.apiKey}</div>}
         <small>Enter your API key for authentication.</small>
       </div>
 
-      {/* Display the query URL with copy button */}
       {queryUrl && (
         <div className="query-url">
           <h4>Request URL:</h4>
@@ -527,17 +698,28 @@ const OptionsChain = () => {
         </div>
       )}
 
+      <button className="run-query-btn" onClick={handleRunQuery}>
+        Run Query
+      </button>
+
+      <button
+        className="show-symbols-btn"
+        onClick={() => setShowSymbolsModal(true)}
+      >
+        Show Available Symbols
+      </button>
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         data={queryResult}
       />
 
-      <button className="run-query-btn" onClick={handleRunQuery}>
-        Run Query
-      </button>
-
-      {/* Render the Modal */}
+      <SymbolsModal
+        isOpen={showSymbolsModal}
+        onClose={() => setShowSymbolsModal(false)}
+        onSymbolSelect={handleSymbolSelect}
+      />
     </div>
   );
 };

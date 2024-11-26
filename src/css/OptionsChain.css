@@ -216,3 +216,107 @@ p {
     padding: 12px 20px;
   }
 }
+
+/* Add these styles to your existing CSS file */
+
+.show-symbols-btn {
+  background-color: #6366f1;
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.show-symbols-btn:hover {
+  background-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+.symbols-modal {
+  max-width: 800px !important;
+}
+
+.symbols-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.symbol-tag {
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.symbol-tag:hover {
+  background-color: #6366f1;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.modal-content h3 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.modal-header {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Add smooth scrolling to the symbols container */
+.symbols-container {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #f3f4f6;
+}
+
+.symbols-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.symbols-container::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.symbols-container::-webkit-scrollbar-thumb {
+  background-color: #6366f1;
+  border-radius: 4px;
+}
+
+/* Add animation for the modal */
+.symbols-modal {
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
