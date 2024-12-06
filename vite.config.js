@@ -2,16 +2,16 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 
-const command = process.env.VITE_COMMAND || 'serve';
+const command = process.env.VITE_COMMAND || 'serve2';
 const mode = process.env.VITE_MODE || 'development';
 
 export default defineConfig({
   plugins: [react()],
   server: {
-    // https: {
-    //   key: fs.readFileSync('C:/Users/salam/porkbunKey/private.key.pem'),
-    //   cert: fs.readFileSync('C:/Users/salam/porkbunKey/domain.cert.pem'),
-    // },
+    https: {
+      key: fs.readFileSync('C:/Users/sala0986/porkbunKey/private.key.pem'),
+      cert: fs.readFileSync('C:/Users/sala0986/porkbunKey/domain.cert.pem'),
+    },
     hmr: {
       overlay: false,
     },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/OptionsChain.css";
-import API_URL from "./config/config";
+
+const API_URL = "https://optionsapi.dev/api";
 
 const ALLOWED_SYMBOLS = [
   "A",
@@ -409,6 +410,13 @@ const ALLOWED_SYMBOLS = [
   "ZM",
 ];
 
+const LoadingSpinner = () => (
+  <div className="loading-overlay">
+    <div className="loading-spinner"></div>
+    <p>Loading data...</p>
+  </div>
+);
+
 const Modal = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
 
@@ -428,15 +436,10 @@ const SymbolsModal = ({ isOpen, onClose, onSymbolSelect }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content symbols-modal"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="modal-content symbols-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>Available Symbols</h3>
-          <button className="close-button" onClick={onClose}>
-            ×
-          </button>
+          <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div className="symbols-container">
           {ALLOWED_SYMBOLS.map((symbol) => (
@@ -458,234 +461,202 @@ const SymbolsModal = ({ isOpen, onClose, onSymbolSelect }) => {
 };
 
 const OptionsChain = () => {
-  const [symbol, setSymbol] = useState("");
-  const [strikePrice, setStrikePrice] = useState("");
-  const [startExpirationDate, setStartExpirationDate] = useState("");
-  const [endExpirationDate, setEndExpirationDate] = useState("");
-  const [contractType, setContractType] = useState("");
-  const [order, setOrder] = useState("");
-  const [limit, setLimit] = useState(10);
-  const [sort, setSort] = useState("");
-  const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "");
+  const [formData, setFormData] = useState({
+    symbol: "",
+    strikePrice: "",
+    startExpirationDate: "",
+    endExpirationDate: "",
+    contractType: "",
+    order: "",
+    limit: 10,
+    sort: "",
+    apiKey: localStorage.getItem("apiKey") || ""
+  });
+
   const [queryResult, setQueryResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSymbolsModal, setShowSymbolsModal] = useState(false);
   const [queryUrl, setQueryUrl] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const url = buildQueryUrl();
     setQueryUrl(url);
-  }, [
-    symbol,
-    strikePrice,
-    startExpirationDate,
-    endExpirationDate,
-    contractType,
-    order,
-    limit,
-    sort,
-    apiKey,
-  ]);
+  }, [formData]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
+  };
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (!symbol.trim()) {
-      newErrors.symbol = "Symbol is required";
-    }
-
-    if (!apiKey.trim()) {
-      newErrors.apiKey = "API Key is required";
-    }
-
+    if (!formData.symbol.trim()) newErrors.symbol = "Symbol is required";
+    if (!formData.apiKey.trim()) newErrors.apiKey = "API Key is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const buildQueryUrl = () => {
+    const params = Object.entries(formData)
+      .filter(([_, value]) => value)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .join('&');
+    return `${API_URL}/optionsChain?${params}`;
+  };
+
   const handleRunQuery = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
+    
+    setIsLoading(true);
     try {
-      const response = await fetch(queryUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      const response = await fetch(queryUrl);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
       setQueryResult(data);
       setIsModalOpen(true);
     } catch (error) {
       console.error("Error running query:", error);
       setQueryResult(null);
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const buildQueryUrl = () => {
-    let queryParams = [];
-
-    if (symbol) queryParams.push(`symbol=${symbol}`);
-    if (strikePrice) queryParams.push(`strike_price=${strikePrice}`);
-    if (startExpirationDate)
-      queryParams.push(`start_expiration_date=${startExpirationDate}`);
-    if (endExpirationDate)
-      queryParams.push(`end_expiration_date=${endExpirationDate}`);
-    if (contractType) queryParams.push(`contract_type=${contractType}`);
-    if (order) queryParams.push(`order=${order}`);
-    if (limit) queryParams.push(`limit=${limit}`);
-    if (sort) queryParams.push(`sort=${sort}`);
-    if (apiKey) queryParams.push(`apiKey=${apiKey}`);
-
-    return `${API_URL}/optionsChain?${queryParams.join("&")}`;
   };
 
   const handleCopyUrl = () => {
-    if (queryUrl) {
-      navigator.clipboard
-        .writeText(queryUrl)
-        .then(() => {
-          alert("URL copied to clipboard!");
-        })
-        .catch((err) => {
-          console.error("Failed to copy: ", err);
-        });
-    }
+    navigator.clipboard.writeText(queryUrl)
+      .then(() => alert("URL copied to clipboard!"))
+      .catch(err => console.error("Failed to copy:", err));
   };
 
-  const handleSymbolSelect = (selectedSymbol) => {
-    setSymbol(selectedSymbol);
-    setErrors({ ...errors, symbol: undefined });
-  };
-
-  const handleApiKeyChange = (e) => {
-    const value = e.target.value;
-    setApiKey(value);
-    setErrors({ ...errors, apiKey: undefined });
-    localStorage.setItem("apiKey", value);
+  const handleSymbolSelect = (symbol) => {
+    setFormData(prev => ({ ...prev, symbol }));
+    setErrors(prev => ({ ...prev, symbol: undefined }));
   };
 
   return (
     <div className="options-chain-container">
+      {isLoading && <LoadingSpinner />}
       <h2>Options Chain</h2>
       <p>Get the snapshot of all options contracts for an underlying ticker.</p>
 
       <div className={`form-group ${errors.symbol ? "error" : ""}`}>
-        <label>
-          Symbol* <span className="required">Required</span>
-        </label>
+        <label>Symbol* <span className="required">Required</span></label>
         <input
           type="text"
-          value={symbol}
-          onChange={(e) => {
-            setSymbol(e.target.value);
-            setErrors({ ...errors, symbol: undefined });
-          }}
+          name="symbol"
+          value={formData.symbol}
+          onChange={handleInputChange}
           placeholder="Enter symbol"
-          className={errors.symbol ? "error-input" : ""}
         />
         {errors.symbol && <div className="error-message">{errors.symbol}</div>}
-        <small>Enter the stock ticker symbol (e.g., AAPL for Apple).</small>
       </div>
 
       <div className="form-group">
         <label>Strike Price</label>
         <input
           type="text"
-          value={strikePrice}
-          onChange={(e) => setStrikePrice(e.target.value)}
+          name="strikePrice"
+          value={formData.strikePrice}
+          onChange={handleInputChange}
           placeholder="Enter strike price"
         />
-        <small>Enter the strike price for the options contract.</small>
       </div>
 
       <div className="form-group">
         <label>Start Expiration Date</label>
         <input
           type="date"
-          value={startExpirationDate}
-          onChange={(e) => setStartExpirationDate(e.target.value)}
-          placeholder="YYYY-MM-DD"
+          name="startExpirationDate"
+          value={formData.startExpirationDate}
+          onChange={handleInputChange}
         />
-        <small>Select the start date for the expiration range.</small>
       </div>
 
       <div className="form-group">
         <label>End Expiration Date</label>
         <input
           type="date"
-          value={endExpirationDate}
-          onChange={(e) => setEndExpirationDate(e.target.value)}
-          placeholder="YYYY-MM-DD"
+          name="endExpirationDate"
+          value={formData.endExpirationDate}
+          onChange={handleInputChange}
         />
-        <small>Select the end date for the expiration range.</small>
       </div>
 
       <div className="form-group">
         <label>Contract Type</label>
         <select
-          value={contractType}
-          onChange={(e) => setContractType(e.target.value)}
+          name="contractType"
+          value={formData.contractType}
+          onChange={handleInputChange}
         >
           <option value="">Select contract type</option>
           <option value="call">Call</option>
           <option value="put">Put</option>
         </select>
-        <small>Select the type of option contract (Call or Put).</small>
       </div>
 
       <div className="form-group">
         <label>Order</label>
-        <select value={order} onChange={(e) => setOrder(e.target.value)}>
+        <select
+          name="order"
+          value={formData.order}
+          onChange={handleInputChange}
+        >
           <option value="">Select order</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
-        <small>Choose the order in which to display results.</small>
       </div>
 
       <div className="form-group">
         <label>Limit</label>
-        <select value={limit} onChange={(e) => setLimit(e.target.value)}>
+        <select
+          name="limit"
+          value={formData.limit}
+          onChange={handleInputChange}
+        >
           <option value="10">10</option>
           <option value="50">50</option>
           <option value="100">100</option>
           <option value="200">200</option>
-          <option value="MAX">Max (it may be slower)</option>
+          <option value="MAX">Max</option>
         </select>
-        <small>Specify the maximum number of results to return.</small>
       </div>
 
       <div className="form-group">
         <label>Sort</label>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+        <select
+          name="sort"
+          value={formData.sort}
+          onChange={handleInputChange}
+        >
           <option value="">Select sort field</option>
           <option value="strike_price">Strike Price</option>
           <option value="expiration_date">Expiration Date</option>
         </select>
-        <small>Select the field by which to sort the results.</small>
       </div>
 
       <div className={`form-group ${errors.apiKey ? "error" : ""}`}>
-        <label>
-          API Key* <span className="required">Required</span>
-        </label>
+        <label>API Key* <span className="required">Required</span></label>
         <input
           type="text"
-          value={apiKey}
-          onChange={handleApiKeyChange}
+          name="apiKey"
+          value={formData.apiKey}
+          onChange={handleInputChange}
           placeholder="Enter API key"
-          className={errors.apiKey ? "error-input" : ""}
         />
         {errors.apiKey && <div className="error-message">{errors.apiKey}</div>}
-        <small>Enter your API key for authentication.</small>
       </div>
 
       {queryUrl && (
@@ -698,16 +669,14 @@ const OptionsChain = () => {
         </div>
       )}
 
-      <button className="run-query-btn" onClick={handleRunQuery}>
-        Run Query
-      </button>
-
-      <button
-        className="show-symbols-btn"
-        onClick={() => setShowSymbolsModal(true)}
-      >
-        Show Available Symbols
-      </button>
+      <div className="button-group">
+        <button className="run-query-btn" onClick={handleRunQuery}>
+          Run Query
+        </button>
+        <button className="show-symbols-btn" onClick={() => setShowSymbolsModal(true)}>
+          Show Available Symbols
+        </button>
+      </div>
 
       <Modal
         isOpen={isModalOpen}

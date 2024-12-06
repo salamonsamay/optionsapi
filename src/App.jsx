@@ -19,6 +19,7 @@ import Home from "./Home";
 import OptionProbabilty from "./OptionProbability";
 import Logout from "./Logout";
 
+
 // Protected Route Component with memo for better performance
 const ProtectedRoute = React.memo(({ children, isAuthenticated }) => {
   const location = useLocation();
@@ -170,7 +171,7 @@ function App() {
               isAuthenticated ? (
                 <Navigate to="/optionsChain" replace />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/home" replace />
               )
             }
           />

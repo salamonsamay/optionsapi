@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./css/Pricing.css";
 import API_URL from "./config/config";
+import { useNavigate } from "react-router-dom";
+
 
 const Pricing = () => {
+  const navigate = useNavigate();
   const currentPlan = localStorage.getItem("subType");
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showAgreement, setShowAgreement] = useState(false);
@@ -17,9 +20,9 @@ const Pricing = () => {
     {
       name: "Free Plan",
       type: "FREE",
-      price: "$0.0/month",
+      price: "$0.0/week",
       description:
-        "Access to API\n3 API Calls Per 5 Minute\nReal Time Data\nBasic Documentation\nPriority Support",
+        "Access to API\n3 API Calls Per 5 Minute\nReal Time Data",
       buttonText: "Current Plan",
       popular: false,
     },
@@ -99,6 +102,12 @@ By subscribing to our service, you agree to the following terms and conditions:
   };
 
   const handleFreeTrial = async () => {
+    console.log(currentPlan)
+    if (currentPlan===null) {
+      console.log("not")
+      navigate("/login");
+      return;
+    }
     if (!agreementChecked) {
       setTrialStatus({
         message: "Please accept the terms and conditions before proceeding.",
@@ -295,7 +304,7 @@ By subscribing to our service, you agree to the following terms and conditions:
               >
                 {getButtonText(plan)}
               </button>
-              {plan.hasFreeTrial && currentPlan === "FREE" && (
+              {plan.hasFreeTrial && (
                 <button
                   className="free-trial-btn"
                   onClick={handleFreeTrial}

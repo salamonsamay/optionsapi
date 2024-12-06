@@ -1,116 +1,137 @@
-/* General layout */
 .home-container {
-  width: 100%;
-  padding: 0;
-  box-sizing: border-box;
-  margin: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px;
+  font-family: Arial, sans-serif;
 }
 
 /* Hero Section */
 .hero-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-  background-color: #f0f0f0;
-  width: 100vw;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  top: 0;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.hero-content {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Replacing the orange square with the image */
-.hero-image {
-  width: 300px;
-  height: 300px;
-  border-radius: 10px;
-  object-fit: cover; /* Ensures the image maintains its aspect ratio */
-}
-
-.hero-text {
-  max-width: 600px;
-}
-
-.hero-text h1 {
-  font-size: 36px;
-  color: #254E58; /* Primary color */
-  margin-bottom: 15px;
-}
-
-.hero-text p {
-  font-size: 18px;
-  color: #6e6658;
+.hero-section h1 {
+  color: #333;
+  font-size: 2.5rem;
   margin-bottom: 20px;
+}
+
+.video-container {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hero-description {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  color: #666;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 15px;
+  justify-content: center;
+  gap: 20px;
 }
 
-.btn-primary, .btn-secondary {
+/* Button Styles */
+.btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary {
-  background-color: #254E58;
+  background-color: #007bff;
   color: white;
-}
-
-.btn-primary:hover {
-  background-color: #1c3b47;
 }
 
 .btn-secondary {
-  background-color: transparent;
-  border: 2px solid #254E58;
-  color: #254E58;
-}
-
-.btn-secondary:hover {
-  background-color: #254E58;
+  background-color: #6c757d;
   color: white;
 }
 
-/* Services Section */
-.services-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Create 3 columns */
-  gap: 40px 10px;
-  justify-items: center;
-  padding: 30px 0;
-  width: 100vw;
-  background-color: white;
+.btn-large {
+  padding: 15px 30px;
+  font-size: 1.2rem;
 }
 
-.service-box {
-  padding: 30px 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Strategies Section */
+.strategies-section {
+  background-color: #f8f9fa;
+  padding: 40px 0;
   text-align: center;
-  max-width: 350px;
 }
 
-.service-box h4 {
-  font-size: 18px;
-  color: #254E58;
+.strategies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.strategy-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Features Section */
+.features-section {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.feature-item {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.feature-item i {
+  font-size: 2rem;
   margin-bottom: 10px;
 }
 
-.service-box p {
-  font-size: 14px;
-  color: #6e6658;
+/* Call to Action Section */
+.cta-section {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 10px;
+}
+
+.cta-content h2 {
+  margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+  }
 }
